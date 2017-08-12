@@ -1,0 +1,15 @@
+---
+output: github_document
+---
+
+<!-- 
+  README.md is generated from README.Rmd, so you should edit that file.
+-->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment  = NA,
+                      fig.path = "man/figures/README-")
+```
+
+# rnoaa

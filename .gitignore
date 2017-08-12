@@ -1,0 +1,8 @@
+# Author            : Cesar R. Urteaga Reyesvera.
+# Creation date     : August 11, 2017.
+
+# ---------------------------------------------------------------------- FOLDERS
+# ------------------------------------------------------------------------ FILES
+.Rhistory
+.Rproj.user
+inst/doc
