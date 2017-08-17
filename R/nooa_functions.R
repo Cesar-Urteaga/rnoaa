@@ -13,3 +13,21 @@ download_earthquake_data <- function(data_frame_name) {
   download.file(url, temporal_file)
   readr::read_delim(temporal_file, delim = "\t")
 }
+
+#' Cleans the NOOA's earthquake data
+#'
+#' \code{eq_clean_data} creates a variable with the date of the quake and
+#' converts the latitude and longitude variables into a numeric variable.
+#'
+#' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
+#' object with the cleaned data.
+#' @export
+#' @importFrom tidyr unite
+#' @importFrom dplyr %>% mutate
+eq_clean_data <- function(data){
+  data %>%
+    tidyr::unite(date, YEAR, MONTH, DAY, HOUR, remove = FALSE) %>%
+    dplyr::mutate(date = lubridate::ymd_h(date),
+                  LATITUDE = as.numeric(LATITUDE),
+                  LONGITUDE = as.numeric(LONGITUDE))
+}
