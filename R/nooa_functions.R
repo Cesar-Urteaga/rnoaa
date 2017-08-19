@@ -14,7 +14,7 @@ download_earthquake_data <- function(data_frame_name) {
   readr::read_delim(temporal_file, delim = "\t")
 }
 
-#' Cleans the NOOA's earthquake data
+#' Creates the earthquake's time-date and process the geospatial data
 #'
 #' \code{eq_clean_data} creates a variable with the date of the quake and
 #' converts the latitude and longitude variables into a numeric variable.
@@ -31,3 +31,20 @@ eq_clean_data <- function(data){
                   LATITUDE = as.numeric(LATITUDE),
                   LONGITUDE = as.numeric(LONGITUDE))
 }
+
+#' Cleans the location name of the earthquake
+#'
+#' With \code{eq_location_clean} you can get rid of the country for the variable
+#' \code{LOCATION_NAME} and convert the location name into title case.
+#'
+#' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
+#' object.
+#' @export
+#' @importFrom stringr str_to_title
+eq_location_clean <- function(data){
+  dplyr::mutate(LOCATION_NAME = stringr::str_to_title(LOCATION_NAME),
+                LOCATION_NAME = gsub("^.+:", "", LOCATION_NAME),
+                LOCATION_NAME = gsub(",", ", ", LOCATION_NAME),
+                LOCATION_NAME = gsub("[ ]{2,}", " ", LOCATION_NAME)
+                )
+  }
