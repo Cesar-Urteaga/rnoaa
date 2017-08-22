@@ -42,6 +42,7 @@ eq_clean_data <- function(data){
 #' @export
 #' @importFrom stringr str_to_title
 eq_location_clean <- function(data){
+  data %>%
   dplyr::mutate(LOCATION_NAME = stringr::str_to_title(LOCATION_NAME),
                 LOCATION_NAME = gsub("^.+:", "", LOCATION_NAME),
                 LOCATION_NAME = gsub(",", ", ", LOCATION_NAME),
