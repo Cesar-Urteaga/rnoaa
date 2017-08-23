@@ -49,3 +49,8 @@ eq_location_clean <- function(data){
                 LOCATION_NAME = gsub("[ ]{2,}", " ", LOCATION_NAME)
                 )
   }
+
+library(dplyr)
+raw_data <- download_earthquake_data()
+clean_data <- eq_clean_data(raw_data)
+clean_data <- eq_location_clean(clean_data)

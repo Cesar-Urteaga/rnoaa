@@ -1,8 +1,13 @@
 GeomEarthquakeTimeline <- ggproto(`_class`     = "GeomEarthquakeTimeline",
                                   `_inherit`   = ggplot2::Geom,
+                                  setup_data = function(data, params){
+                                    if(is.null(data$y)){
+                                      data$y = 0.5
+                                    }
+                                    data
+                                  },
                                   required_aes = "x",
-                                  default_aes  = ggplot2::aes(y      = 0,
-                                                              shape  = 19,
+                                  default_aes  = ggplot2::aes(shape  = 19,
                                                               colour = "black",
                                                               size   = 1.5,
                                                               fill   = NA,
@@ -21,9 +26,11 @@ GeomEarthquakeTimeline <- ggproto(`_class`     = "GeomEarthquakeTimeline",
                                     )
                                     axis_grob <- grid::polylineGrob(
                                       coords$x, coords$y,
-                                      id = coords$group,
+                                      id = coords$group
                                     )
-                                    grid::gList(dates_grob, axis_grob)
+                                    x_axis_grob <- grid::linesGrob(y = c(0, 0))
+                                    grid::gList(dates_grob, axis_grob, x_axis_grob)
+                                    #print(coords)
                                   }
                                   )
 
@@ -41,5 +48,8 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
 
 library(ggplot2)
 clean_data %>%
-  ggplot(mapping = aes(x = date)) +
+  filter(COUNTRY %in% c("MEXICO", "CHILE", "CUBA", "PERU", "CHINA")) %>%
+  ggplot(mapping = aes(x = date
+                       , y = COUNTRY
+                       )) +
   geom_timeline()
