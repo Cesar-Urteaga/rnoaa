@@ -1,4 +1,4 @@
-#' Obtains the latest earthquake data from the NOOA
+#' Obtains the latest earthquake data from the NOAA
 #'
 #' The function \code{download_earthquake_data} gets the most recent earthquake
 #' data from \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{the NOOA's Webpage}.
@@ -26,8 +26,8 @@ download_earthquake_data <- function(data_frame_name) {
 #' @importFrom dplyr %>% mutate
 eq_clean_data <- function(data){
   data %>%
-    tidyr::unite(date, YEAR, MONTH, DAY, HOUR, remove = FALSE) %>%
-    dplyr::mutate(date = lubridate::ymd_h(date),
+    tidyr::unite(DATE, YEAR, MONTH, DAY, HOUR, remove = FALSE) %>%
+    dplyr::mutate(DATE = lubridate::ymd_h(DATE),
                   LATITUDE = as.numeric(LATITUDE),
                   LONGITUDE = as.numeric(LONGITUDE))
 }
