@@ -1,120 +1,115 @@
-GeomTimeline <- ggproto(`_class`        = "GeomTimeline",
-                        `_inherit`      = ggplot2::Geom,
-                        required_aes    = "x",
-                        non_missing_aes = c("size", "shape", "colour"),
-                        default_aes     = aes(shape = 19, colour = "black",
-                                              size  = 2,  fill = NA,
-                                              alpha = 0.7, stroke = 0.5
+next_y_cut <- function(value, n, percentage = 2 / 3){
+  if (n <= 1) stop("n must be greater than 1")
+  initial_value <- 3 / (1 + 5 * n)
+  cuts <- seq(initial_value, 1 - initial_value, length.out = n)
+  index <- 1
+  while(!isTRUE(all.equal(value, cuts[index], tolerance = 0.00000001)) &
+        index <= n)
+    index <- index + 1
+  # If the function do not find the value, it will return NA.
+  if (index == n + 1) return(NA)
+  if(index == n){
+    return(cuts[index] + (1 - cuts[index]) * percentage)
+  } else {
+    return(cuts[index] + (cuts[index + 1] - cuts[index]) * percentage)
+  }
+}
+# I have taken this function from the ggplot2 package, see:
+# https://raw.githubusercontent.com/tidyverse/ggplot2/master/R/utilities-grid.r
+ggname <- function(prefix, grob) {
+  grob$name <- grid::grobName(grob, prefix)
+  grob
+}
+#-------------------------------------------------------------------------------
+GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
+                          # Because this geom is quite similar to the GeomPoint,
+                          # we can recycle it instead of reinventing the wheel.
+                          `_inherit`      = ggplot2::GeomPoint,
+                          required_aes    = "x",
+                          default_aes     = plyr::defaults(
+                                              ggplot2::aes(size  = 2,
+                                                           alpha = 0.7),
+                                              GeomPoint$default_aes
                                               ),
-                        setup_data      = function(data, params){
-                          if(is.null(data$y)){
-                            data$y = 0.5
-                          }
-                          data
-                        },
-                        draw_panel      = function(data, panel_params,
-                                                   coord, na.rm = FALSE){
-                          coords <- coord$transform(data, panel_params)
-                          dates_grob <- grid::pointsGrob(
-                            coords$x, coords$y,
-                            pch = coords$shape,
-                            gp = grid::gpar(col = scales::alpha(coords$colour,
-                                                                coords$alpha),
-                                      fill = scales::alpha(coords$fill,
-                                                           coords$alpha),
-                                      fontsize = coords$size * .pt +
-                                                 coords$stroke * .stroke / 2,
-                                      lwd = coords$stroke * .stroke / 2
-                                      )
-                            )
-                          axis_grob <- grid::polylineGrob(
-                            coords$x, coords$y,
-                            id = coords$group,
-                            gp = grid::gpar(col = gray(0.5))
-                            )
-                          #grid::gList(dates_grob, axis_grob)
-                          print(coords)
-                        },
-                        draw_key = draw_key_point
-                        )
-
-geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
-                          position = "identity",
-                          na.rm = FALSE,
-                          show.legend = NA,
-                          inherit.aes = TRUE, ...){
-  ggplot2::layer(geom = GeomTimeline, mapping = mapping, data = data,
-                 stat = stat, position = position, show.legend = show.legend,
-                 inherit.aes = inherit.aes, params = list(na.rm = na.rm, ...)
-                 )
-                 }
-
-
-
-GeomTimelineLabel <- ggproto(`_class`     = "GeomTimelineLabel",
-                          `_inherit`      = ggplot2::Geom,
-                          required_aes    = c("x", "label"),
-                          non_missing_aes = c("size", "shape", "colour"),
-                          default_aes     = aes(shape = 19, colour = "black",
-                                                size  = 2,  fill = NA,
-                                                alpha = 0.7, stroke = 0.5
-                                                ),
-                          setup_data      = function(data, params){
-                            if(is.null(data$y)){
-                              data$y = 0.5
-                            }
-                            data
-                          },
                           draw_panel      = function(data, panel_params,
-                                                     coord, na.rm = FALSE){
+                                                     coord){
+                            dates_grob <- ggplot2::GeomPoint$draw_panel(data,
+                              panel_params, coord)
                             coords <- coord$transform(data, panel_params)
-                            dates_grob <- grid::pointsGrob(
-                              coords$x, coords$y,
-                              pch = coords$shape,
-                              gp = grid::gpar(col = scales::alpha(coords$colour,
-                                                                  coords$alpha),
-                                        fill = scales::alpha(coords$fill,
-                                                             coords$alpha),
-                                        fontsize = coords$size * .pt +
-                                                   coords$stroke * .stroke / 2,
-                                        lwd = coords$stroke * .stroke / 2
-                                        )
-                              )
                             axis_grob <- grid::polylineGrob(
                               coords$x, coords$y,
                               id = coords$group,
                               gp = grid::gpar(col = gray(0.5))
                               )
-                            #grid::gList(dates_grob, axis_grob)
-                            print(coords)
-                          },
-                          draw_key = draw_key_point
+                            ggname("geom_timeline",
+                                   grid::grobTree(dates_grob, axis_grob)
+                                   )
+                          }
                           )
-
+geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
+                          position = "identity",
+                          show.legend = NA,
+                          inherit.aes = TRUE,
+                          na.rm = FALSE,
+                          ...){
+  ggplot2::layer(geom = GeomTimeline, mapping = mapping, data = data,
+                 stat = stat, position = position, show.legend = show.legend,
+                 inherit.aes = inherit.aes, params = list(na.rm = na.rm, ...))
+                 }
+#-------------------------------------------------------------------------------
+GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
+                               `_inherit`      = ggplot2::GeomSegment,
+                               required_aes    = c("x", "label"),
+                               draw_panel      = function(data, panel_params,
+                                                          coord, n_max = n_max){
+                                 data$n_max <- n_max
+                                 coords <- coord$transform(data, panel_params)
+                                 n <- length(unique(coords$y))
+                                 coords$xend <- coords$x
+                                 coords$yend <- mapply(next_y_cut, coords$y, n, percentage = 1/3)
+                                 g <- grid::segmentsGrob(coords$x, coords$y, coords$xend, coords$yend,
+                                  gp = grid::gpar(col = gray(0.5))
+                                  )
+                                 ggname("geom_timeline_label",
+                                          grid::grobTree(g)
+                                       )
+                               },
+                               draw_key = draw_key_blank
+                               )
 geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
                                 position = "identity",
-                                na.rm = FALSE,
                                 show.legend = NA,
-                                inherit.aes = TRUE, ...){
+                                inherit.aes = TRUE,
+                                n_max = 15,
+                                na.rm = FALSE,
+                                ...){
   ggplot2::layer(geom = GeomTimelineLabel, mapping = mapping, data = data,
                  stat = stat, position = position, show.legend = show.legend,
-                 inherit.aes = inherit.aes, params = list(na.rm = na.rm, ...)
+                 inherit.aes = inherit.aes, params = list(n_max = n_max,
+                                                          na.rm = na.rm, ...)
                  )
                  }
-
-
+#-------------------------------------------------------------------------------
 library(ggplot2)
 clean_data %>%
   filter(
-    COUNTRY %in% c("USA", "MEXICO"),
+#    COUNTRY %in% unique(clean_data$COUNTRY),
+#    COUNTRY %in% c("USA" #"MEXICO"),
+#                   ,"ITALY","IRAN", "UK",
+#                   "AUSTRALIA", "MEXICO",
+#                   "CHINA", "CHILE", "PERU",
+#                   "JAPAN", "ECUADOR",
+#                   "ARGENTINA", "INDIA"),
+    !is.na(EQ_MAG_MW),
     YEAR %in% as.character(2000:2016)) %>%
   ggplot(mapping = aes(x = DATE
                        , y = COUNTRY
-  #                     , size = as.numeric(EQ_MAG_MW)
-                       , color = as.numeric(TOTAL_DEATHS)
+                       , size = as.numeric(EQ_MAG_MW)
+                       , color = as.numeric(TOTAL_DEATHS) / 1000
+                       , label = LOCATION_NAME
                        )) +
+  geom_timeline_label(colour = gray(0.5)) +
   geom_timeline() +
-  #geom_jitter(aes(y = COUNTRY)) +
   labs(size = "Richter scale value", color = "# deaths", y = "") +
   theme_minimal() +
   theme(legend.position="bottom",
@@ -125,4 +120,5 @@ clean_data %>%
         panel.grid.minor.x = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
-        axis.text.y        =element_blank())
+        # axis.text.y        = element_blank()
+        )
