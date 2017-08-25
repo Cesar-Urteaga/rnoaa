@@ -1,5 +1,5 @@
 next_y_cut <- function(value, n, percentage = 2 / 3){
-  if (n <= 1) stop("n must be greater than 1")
+  if (n == 1) return(0.5 + 0.5 * percentage)
   initial_value <- 3 / (1 + 5 * n)
   cuts <- seq(initial_value, 1 - initial_value, length.out = n)
   index <- 1
@@ -60,19 +60,39 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
 GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
                                `_inherit`      = ggplot2::GeomSegment,
                                required_aes    = c("x", "label"),
-                               draw_panel      = function(data, panel_params,
-                                                          coord, n_max = n_max){
-                                 data$n_max <- n_max
+                               draw_panel      = function(
+                                                     data, panel_params,
+                                                     coord, n_max = n_max,
+                                                     fontsize = fontsize,
+                                                     angle = angle,
+                                                     line_height = line_height){
                                  coords <- coord$transform(data, panel_params)
                                  n <- length(unique(coords$y))
                                  coords$xend <- coords$x
-                                 coords$yend <- mapply(next_y_cut, coords$y, n, percentage = 1/3)
-                                 g <- grid::segmentsGrob(coords$x, coords$y, coords$xend, coords$yend,
+                                 coords$yend <- mapply(next_y_cut, coords$y,
+                                                       n,
+                                                       percentage = line_height)
+                                 coords <- coords %>%
+                                   dplyr::group_by(y) %>%
+                                   dplyr::arrange(desc(size)) %>%
+                                   dplyr::filter(row_number() <= n_max)
+                                 segments_grob <- grid::segmentsGrob(
+                                  coords$x, coords$y,
+                                  coords$xend, coords$yend,
                                   gp = grid::gpar(col = gray(0.5))
                                   )
+                                 labels_grob <- grid::textGrob(
+                                  label = coords$label,
+                                  x = coords$xend, y = coords$yend,
+                                  just = c("left", "bottom"),
+                                  rot = angle,
+                                  gp = gpar(fontsize = fontsize *
+                                            ggplot2::.pt)
+                                  )
                                  ggname("geom_timeline_label",
-                                          grid::grobTree(g)
-                                       )
+                                        grid::grobTree(segments_grob,
+                                          labels_grob)
+                                        )
                                },
                                draw_key = draw_key_blank
                                )
@@ -80,26 +100,34 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
                                 position = "identity",
                                 show.legend = NA,
                                 inherit.aes = TRUE,
-                                n_max = 15,
+                                n_max = 1,
+                                fontsize = 3.88,
+                                angle = 10,
+                                line_height = 1 / 3,
                                 na.rm = FALSE,
                                 ...){
   ggplot2::layer(geom = GeomTimelineLabel, mapping = mapping, data = data,
                  stat = stat, position = position, show.legend = show.legend,
-                 inherit.aes = inherit.aes, params = list(n_max = n_max,
-                                                          na.rm = na.rm, ...)
+                 inherit.aes = inherit.aes, params = list(
+                  n_max = n_max,
+                  fontsize = fontsize,
+                  angle = angle,
+                  line_height = line_height,
+                  na.rm = na.rm, ...)
                  )
                  }
 #-------------------------------------------------------------------------------
 library(ggplot2)
 clean_data %>%
   filter(
-#    COUNTRY %in% unique(clean_data$COUNTRY),
-#    COUNTRY %in% c("USA" #"MEXICO"),
-#                   ,"ITALY","IRAN", "UK",
-#                   "AUSTRALIA", "MEXICO",
-#                   "CHINA", "CHILE", "PERU",
-#                   "JAPAN", "ECUADOR",
-#                   "ARGENTINA", "INDIA"),
+#    COUNTRY == "MEXICO",
+   COUNTRY %in% c("USA" #"MEXICO"),
+                  ,"ITALY","IRAN", "UK",
+                  "AUSTRALIA", "MEXICO",
+                  "CHINA", "CHILE", "PERU",
+                  "JAPAN", "ECUADOR",
+                  "ARGENTINA", "INDIA"
+                  ),
     !is.na(EQ_MAG_MW),
     YEAR %in% as.character(2000:2016)) %>%
   ggplot(mapping = aes(x = DATE
@@ -108,8 +136,8 @@ clean_data %>%
                        , color = as.numeric(TOTAL_DEATHS) / 1000
                        , label = LOCATION_NAME
                        )) +
-  geom_timeline_label(colour = gray(0.5)) +
   geom_timeline() +
+  geom_timeline_label(n_max = 2, fontsize = 2.5, angle = 10, line_height = 1/4) +
   labs(size = "Richter scale value", color = "# deaths", y = "") +
   theme_minimal() +
   theme(legend.position="bottom",
