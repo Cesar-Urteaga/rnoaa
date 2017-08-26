@@ -1,0 +1,37 @@
+geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
+                          position = "identity",
+                          show.legend = NA,
+                          inherit.aes = TRUE,
+                          na.rm = FALSE,
+                          ...){
+  ggplot2::layer(geom = GeomTimeline, mapping = mapping, data = data,
+                 stat = stat, position = position, show.legend = show.legend,
+                 inherit.aes = inherit.aes, params = list(na.rm = na.rm, ...))
+                 }
+
+GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
+                          # Because this geom is quite similar to the GeomPoint,
+                          # we can recycle it instead of reinventing the wheel.
+                          `_inherit`      = ggplot2::GeomPoint,
+                          required_aes    = "x",
+                          default_aes     = plyr::defaults(
+                                              ggplot2::aes(y     = 0.5,
+                                                           size  = 2,
+                                                           alpha = 0.7),
+                                              ggplot2::GeomPoint$default_aes
+                                              ),
+                          draw_panel      = function(data, panel_params,
+                                                     coord){
+                            dates_grob <- ggplot2::GeomPoint$draw_panel(data,
+                              panel_params, coord)
+                            coords <- coord$transform(data, panel_params)
+                            axis_grob <- grid::polylineGrob(
+                              coords$x, coords$y,
+                              id = coords$group,
+                              gp = grid::gpar(col = gray(0.5))
+                              )
+                            ggname("geom_timeline",
+                                   grid::grobTree(dates_grob, axis_grob)
+                                   )
+                          }
+                          )
