@@ -1,11 +1,20 @@
 Package: rnoaa
-Type: Package
-Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
-Encoding: UTF-8
+Title: Functions to get, clean, visualize, and analize the NOAA's quake data
+Description: A package developed for the capstone project of the Coursera's
+    specialization "Mastering Software Development in R" offered by the Johns
+    Hopkins University.  It consists of a set of functions used to get, clean,
+    visualize, and analyze the earthquake data provided from the US National
+    Oceanic and Atmospheric Administration (NOAA).  The package includes two
+    ggplot2's geoms to examine the timeline in which the quakes occurred, and
+    provides with two functions to visualize the earthquake's epicenters in an
+    interactive way using the R's Leaflet maps.
+Authors@R: person("Cesar", "Urteaga", , "cesar@no-reply.com", c("aut", "cre"))
+Depends:
+    R (>= 3.4.1)
+License: GPL-3
+URL: https://github.com/Cesar-Urteaga/rnoaa
+BugReports: https://github.com/Cesar-Urteaga/rnoaa/issues
 LazyData: true
+Encoding: UTF-8
+RoxygenNote: 6.0.1

@@ -1,3 +1,9 @@
+#' Timeline labels
+#'
+#' \code{geom_timeline_label} works together with the \code{\link{geom_timeline}}
+#' and shows the labels of the higher values for the aesthetic size (e.g., the
+#' magnitude of a quake) or the last observations if this aesthetic is omitted.
+#'
 geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
                                 position = "identity",
                                 show.legend = NA,
@@ -22,6 +28,9 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
 #' Class of the geom_timeline_label
 #'
 #' Please refer to the documentation of the \code{\link{geom_timeline_label}}.
+#'
+#' @format NULL
+#' @usage NULL
 GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
                                `_inherit`      = ggplot2::GeomSegment,
                                required_aes    = c("x", "label"),

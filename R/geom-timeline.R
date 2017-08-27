@@ -1,10 +1,9 @@
 #' Timeline
 #'
 #' The \code{geom_timeline} displays the timeline of the observations along
-#' with them.
+#' with each point observed during the timeline's period.
 #'
 #' @inheritParams ggplot2::layer
-#' @param
 geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
                           position = "identity", show.legend = NA,
                           inherit.aes = TRUE, na.rm = FALSE,
@@ -17,6 +16,9 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' Class of the geom_timeline
 #'
 #' Please refer to the documentation of the \code{\link{geom_timeline}}.
+#'
+#' @format NULL
+#' @usage NULL
 GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
                           # Because this geom is quite similar to the GeomPoint,
                           # we can recycle it instead of reinventing the wheel.
