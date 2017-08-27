@@ -6,6 +6,10 @@
 #'    object with the earthquake epicenters.
 #'
 #' @export
+#' @importFrom dplyr %>% mutate_
+#' @importFrom leaflet leaflet addProviderTiles addCircleMarkers addPolygons
+#' @importFrom leaflet addLayersControl layersControlOptions hideGroup
+#' @importFrom leaflet addMeasure addMiniMap
 eq_map <- function(data, annot_col){
   # Calculates the outline of the observed quake's epicenters.
   outline <- data[chull(data$LONGITUDE, data$LATITUDE),]
@@ -13,9 +17,12 @@ eq_map <- function(data, annot_col){
   map <- data %>%
     dplyr::mutate_(popup_text = as.name(annot_col)) %>%
     leaflet::leaflet() %>%
-    leaflet::addProviderTiles(providers$OpenStreetMap, group = "Dark") %>%
-    leaflet::addProviderTiles(providers$CartoDB.DarkMatter, group = "OSM") %>%
-    leaflet::addProviderTiles(providers$CartoDB.Positron, group = "Gray") %>%
+    leaflet::addProviderTiles("CartoDB.DarkMatter",
+                              group = "Dark") %>%
+    leaflet::addProviderTiles("OpenStreetMap",
+                              group = "OSM") %>%
+    leaflet::addProviderTiles("CartoDB.Positron",
+                              group = "Gray") %>%
     leaflet::addCircleMarkers(lng = ~LONGITUDE,
                               lat = ~LATITUDE,
                               radius = ~EQ_PRIMARY,
@@ -39,7 +46,7 @@ eq_map <- function(data, annot_col){
                         secondaryLengthUnit = "kilometers",
                         primaryAreaUnit = "sqmiles",
                         secondaryAreaUnit = "sqmeters") %>%
-    leaflet::addMiniMap(tiles = providers$CartoDB.DarkMatter,
+    leaflet::addMiniMap(tiles = "CartoDB.DarkMatter",
                         toggleDisplay = TRUE,
                         minimized = TRUE)
   map
@@ -50,6 +57,10 @@ eq_map <- function(data, annot_col){
 #' @param data A \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #'    object with the earthquake traits(i.e., location name, magnitude, and
 #'    total deaths).
+#'
+#' @export
+#' @importFrom purrr pmap_chr
+#' @importFrom scales comma
 eq_create_label <- function(data){
   with(data,
        # Creates the HTML labels with the earthquake characteristics.

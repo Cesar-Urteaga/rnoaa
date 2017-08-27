@@ -4,6 +4,9 @@
 #' and shows the labels of the higher values for the aesthetic size (e.g., the
 #' magnitude of a quake) or the last observations if this aesthetic is omitted.
 #'
+#' @inheritParams ggplot2::layer
+#' @export
+#' @importFrom ggplot2 layer
 geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
                                 position = "identity",
                                 show.legend = NA,
@@ -31,6 +34,11 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 #' @format NULL
 #' @usage NULL
+#' @export
+#' @importFrom ggplot2 ggproto GeomSegment aes .pt draw_key_blank
+#' @importFrom plyr defaults
+#' @importFrom grid segmentsGrob gpar textGrob grobTree
+#' @importFrom dplyr %>% group_by arrange desc filter row_number
 GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
                                `_inherit`      = ggplot2::GeomSegment,
                                required_aes    = c("x", "label"),
@@ -59,15 +67,15 @@ GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
                                  if(length(unique(coords$size)) == 1){
                                   coords <- coords %>%
                                     dplyr::group_by(y) %>%
-                                    dplyr::arrange(desc(x)) %>%
-                                    dplyr::filter(row_number() <= n_max)
+                                    dplyr::arrange(dplyr::desc(x)) %>%
+                                    dplyr::filter(dplyr::row_number() <= n_max)
                                   alignment = c("right", "bottom")
                                   angle_slope = -1
                                  } else {
                                  coords <- coords %>%
                                    dplyr::group_by(y) %>%
-                                   dplyr::arrange(desc(size)) %>%
-                                   dplyr::filter(row_number() <= n_max)
+                                   dplyr::arrange(dplyr::desc(size)) %>%
+                                   dplyr::filter(dplyr::row_number() <= n_max)
                                    alignment = c("left", "bottom")
                                    angle_slope = 1
                                  }

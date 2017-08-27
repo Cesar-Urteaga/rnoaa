@@ -52,9 +52,12 @@ eq_clean_data <- function(data){
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #' object.
 #' @export
+#' @importFrom dplyr %>% mutate
 #' @importFrom stringr str_to_title
+#' @examples
 #' raw_data <- download_earthquake_data()
-#' clean_data <- eq_location_clean(raw_data)
+#' clean_data <- eq_clean_data(raw_data)
+#' clean_data <- eq_location_clean(clean_data)
 eq_location_clean <- function(data){
   data %>%
   dplyr::mutate(LOCATION_NAME = stringr::str_to_title(LOCATION_NAME),
