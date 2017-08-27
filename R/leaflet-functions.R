@@ -23,13 +23,16 @@ eq_map <- function(data, annot_col){
                               group = "Quakes") %>%
     addPolygons(data = outline, lng = ~LONGITUDE, lat = ~LATITUDE,
                 fill = F, weight = 2, color = "red", group = "Outline") %>%
-    # Layers control
     addLayersControl(
       baseGroups = c("OSM", "Dark", "Gray"),
       overlayGroups = c("Quakes", "Outline"),
       options = layersControlOptions(collapsed = FALSE)
     ) %>%
-    addMeasure(position = "bottomleft") %>%
+    addMeasure(position = "bottomleft",
+               primaryLengthUnit = "miles",
+               secondaryLengthUnit = "kilometers",
+               primaryAreaUnit = "sqmiles",
+               secondaryAreaUnit = "sqmeters") %>%
     addMiniMap(tiles = providers$CartoDB.DarkMatter,
                toggleDisplay = TRUE, minimized = TRUE) %>%
     hideGroup("Outline")

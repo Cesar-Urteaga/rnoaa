@@ -1,14 +1,22 @@
+#' Timeline
+#'
+#' The \code{geom_timeline} displays the timeline of the observations along
+#' with them.
+#'
+#' @inheritParams ggplot2::layer
+#' @param
 geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
-                          position = "identity",
-                          show.legend = NA,
-                          inherit.aes = TRUE,
-                          na.rm = FALSE,
+                          position = "identity", show.legend = NA,
+                          inherit.aes = TRUE, na.rm = FALSE,
                           ...){
   ggplot2::layer(geom = GeomTimeline, mapping = mapping, data = data,
                  stat = stat, position = position, show.legend = show.legend,
                  inherit.aes = inherit.aes, params = list(na.rm = na.rm, ...))
                  }
 
+#' Class of the geom_timeline
+#'
+#' Please refer to the documentation of the \code{\link{geom_timeline}}.
 GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
                           # Because this geom is quite similar to the GeomPoint,
                           # we can recycle it instead of reinventing the wheel.
@@ -22,16 +30,18 @@ GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
                                               ),
                           draw_panel      = function(data, panel_params,
                                                      coord){
+                            # Adds the data points.
                             dates_grob <- ggplot2::GeomPoint$draw_panel(data,
                               panel_params, coord)
                             coords <- coord$transform(data, panel_params)
-                            axis_grob <- grid::polylineGrob(
+                            # Includes the timeline along the above data points.
+                            timeline_grob <- grid::polylineGrob(
                               coords$x, coords$y,
                               id = coords$group,
                               gp = grid::gpar(col = gray(0.5))
                               )
                             ggname("geom_timeline",
-                                   grid::grobTree(dates_grob, axis_grob)
+                                   grid::grobTree(dates_grob, timeline_grob)
                                    )
                           }
                           )
