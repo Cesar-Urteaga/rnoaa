@@ -1,19 +1,18 @@
-# https://rstudio.github.io/leaflet/
-
 #' Displays an R Leaflet map with the quake's epicenters.
 #'
 #' @param data A \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #'    object with the earthquake epicenters.
 #'
 #' @export
-#' @importFrom dplyr %>% mutate_
+#' @importFrom dplyr %>% mutate
 #' @importFrom leaflet leaflet addProviderTiles addCircleMarkers addPolygons
 #' @importFrom leaflet addLayersControl layersControlOptions hideGroup
 #' @importFrom leaflet addMeasure addMiniMap
 eq_map <- function(data, annot_col){
   # Calculates the outline of the observed quake's epicenters.
   outline <- data[chull(data$LONGITUDE, data$LATITUDE),]
-  # Renders the epicenters an R's Leaflet map.
+  # Renders the epicenters an R's Leaflet map, please refer to:
+  # https://rstudio.github.io/leaflet/
   map <- data %>%
     dplyr::mutate_(popup_text = as.name(annot_col)) %>%
     leaflet::leaflet() %>%
