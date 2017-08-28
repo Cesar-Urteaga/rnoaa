@@ -1,0 +1,20 @@
+---
+title: "Introduction to the rfars package"
+author: "Cesar R. Urteaga-Reyesvera"
+date: "2017-08-27"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to the rfars package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r Setup, include = FALSE}
+knitr::opts_chunk$set(# Collapse output blocks
+                      collapse = TRUE, 
+                      comment = "#>", 
+                      fig.width = 7, 
+                      fig.height = 7, 
+                      fig.align = "center")
+library(rnoaa)
+```
