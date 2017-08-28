@@ -42,9 +42,9 @@ clean_data <- eq_location_clean(clean_data)
 ```
 
 
-Once the data was tidied, `rnoaa` includes two gplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude.
+Once the data was tidied, `rnoaa` includes two gplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
 
-```{r}
+```{r TimelineGeom}
 library(dplyr)
 library(ggplot2)
 clean_data %>%
@@ -52,19 +52,27 @@ clean_data %>%
          !is.na(EQ_PRIMARY),
          YEAR %in% 2000:2016) %>% 
   ggplot(mapping = aes(x = DATE,
-                       y = COUNTRY,
+                       #y = COUNTRY,
                        size = EQ_PRIMARY,
                        color = TOTAL_DEATHS,
                        label = LOCATION_NAME)
          ) +
   geom_timeline() +
-  geom_timeline_label(line_height = 2/3) +
+  geom_timeline_label(line_height = 2/3, angle = 10) +
   labs(size = "Richter scale value",
        color = "# deaths", 
        y = "") +
-  guides(size = FALSE)
+  guides(size = FALSE) +
+  theme_timeline()
 ```
 
+Furthermore, it provides with functions to display the epicenters in an interactive R Leaflet map:
 
-Furthermore, it provides with functions to display the epicenters in an interactive R Leaflet map.
+```{r, eval = FALSE}
+clean_data %>%
+  dplyr::filter(COUNTRY == "JAPAN" & lubridate::year(DATE) >= 2000) %>%
+  dplyr::mutate(popup_text = eq_create_label(.)) %>%
+  eq_map(annot_col = "popup_text")
+```
 
+![](./man/figures/README-LeafletMap-1.png?raw=true)

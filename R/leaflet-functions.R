@@ -1,3 +1,7 @@
+#' @export
+# Exports the list of Leaflet's providers.
+providers <- leaflet::providers
+
 #' Displays an R Leaflet map with the quake's epicenters.
 #'
 #' @param data A \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}

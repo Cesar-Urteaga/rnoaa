@@ -11,10 +11,10 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
                                 position = "identity",
                                 show.legend = NA,
                                 inherit.aes = TRUE,
-                                n_max = 1,
+                                n_max = 3,
                                 fontsize = 3.88,
-                                angle = 10,
-                                line_height = 1 / 3,
+                                angle = 45,
+                                line_height = 2 / 3,
                                 na.rm = FALSE,
                                 ...){
   ggplot2::layer(geom = GeomTimelineLabel, mapping = mapping, data = data,
@@ -68,14 +68,14 @@ GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
                                   coords <- coords %>%
                                     dplyr::group_by(y) %>%
                                     dplyr::arrange(dplyr::desc(x)) %>%
-                                    dplyr::filter(dplyr::row_number() <= n_max)
+                                    dplyr::filter(row_number <= n_max)
                                   alignment = c("right", "bottom")
                                   angle_slope = -1
                                  } else {
                                  coords <- coords %>%
                                    dplyr::group_by(y) %>%
                                    dplyr::arrange(dplyr::desc(size)) %>%
-                                   dplyr::filter(dplyr::row_number() <= n_max)
+                                   dplyr::filter(row_number() <= n_max)
                                    alignment = c("left", "bottom")
                                    angle_slope = 1
                                  }
