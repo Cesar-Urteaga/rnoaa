@@ -42,7 +42,7 @@ clean_data <- eq_location_clean(clean_data)
 ```
 
 
-Once the data was tidied, `rnoaa` includes two gplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
+Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
 
 ```{r TimelineGeom}
 library(dplyr)
