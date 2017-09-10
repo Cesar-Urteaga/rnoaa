@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom-timeline.R
 \name{geom_timeline}
 \alias{geom_timeline}
-\title{Timeline}
+\title{Timeline ggplot2's geom}
 \usage{
 geom_timeline(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", show.legend = NA, inherit.aes = TRUE,
@@ -42,8 +42,43 @@ a call to a position adjustment function.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link{borders}}.}
+
+\item{na.rm}{If `FALSE`, the default, missing values are removed with
+a warning. If `TRUE`, missing values are silently removed.}
+
+\item{...}{other arguments passed on to the layer function. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+`color = "red"` or `size = 3`. They may also be parameters
+to the paired geom/stat.}
 }
 \description{
 The \code{geom_timeline} displays the timeline of the observations along
-with each point observed during the timeline's period.
+with each point observed during the given period.
+}
+\examples{
+require(dplyr)
+require(ggplot2)
+
+# Before using the geom, we need to tidy the data up.
+raw_data <- get_earthquake_data()
+clean_data <- eq_clean_data(raw_data)
+
+# Quakes in USA
+clean_data \%>\%
+  filter(COUNTRY == "USA",
+         !is.na(EQ_PRIMARY),
+         YEAR \%in\% 2000:2016) \%>\%
+  ggplot(mapping = aes(x = DATE,
+                       size = EQ_PRIMARY,
+                       color = TOTAL_DEATHS)
+         ) +
+  geom_timeline() +
+  labs(size = "Richter scale value",
+       color = "# deaths",
+       y = "") +
+  theme_timeline()
+}
+\seealso{
+\code{\link{geom_timeline_label}} to include labels for each
+observation.
 }

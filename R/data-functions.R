@@ -1,12 +1,45 @@
-#' Obtains the latest earthquake data.
+#' Loads the NOAA's Significant Earthquake dataset.
 #'
-#' The function \code{download_earthquake_data} gets the most recent earthquake
-#' data from \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{the NOAA's Webpage}.
+#' It reads the \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{Significant Earthquake database}
+#' from a plain file downloaded on September 05, 2017 from the NOAA's Webpage
+#' (i.e., no internet connection is needed); in case you want the latest
+#' information, you can use the \code{\link{download_earthquake_data}} function.
+#'
+#' This dataset contains information about destructive earthquakes from 2150
+#' B.C. to the present that meet the following criterion: Moderate damage
+#' (approximately $1 million or more), 10 or more deaths, Magnitude 7.5 or
+#' greater, Modified Mercalli Intensity X or greater, or the earthquake
+#' generated a tsunami.
+#'
+#' Please refer to \href{https://www.ngdc.noaa.gov/nndc/struts/results?&t=101650&s=225&d=225}{this link}
+#' for more information about the description of each variable.
 #'
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #' object.
 #' @export
 #' @importFrom readr read_delim
+#' @seealso \code{\link{eq_clean_data}} and eq_location_clean for data tidying.
+#' @examples
+#' raw_data <- get_earthquake_data()
+get_earthquake_data <- function(){
+  data_file <- system.file("extdata", "rnoaa.txt", package = "rnoaa")
+  readr::read_delim(data_file, delim = "\t")
+}
+
+#' Downloads the latest NOAA's Significant Earthquake dataset.
+#'
+#' The function \code{download_earthquake_data} gets the most recent earthquake
+#' data from \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{the NOAA's Webpage}.
+#'
+#' For more information about this dataset, please read the documentation of
+#' \code{\link{get_earthquake_data}}.
+#'
+#' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
+#' object.
+#' @export
+#' @importFrom readr read_delim
+#' @seealso \code{\link{eq_clean_data}} and \code{\link{eq_location_clean}} for
+#' data tidying.
 #' @examples
 #' raw_data <- download_earthquake_data()
 download_earthquake_data <- function(){
@@ -16,11 +49,13 @@ download_earthquake_data <- function(){
   readr::read_delim(temporal_file, delim = "\t")
   }
 
-#' Prepares some earthquake's key variables.
+#' Prepares some earthquake's key variables for data analysis.
 #'
-#' \code{eq_clean_data} processes the earthquake's variables with the date,
-#' latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total
-#' deaths (TOTAL_DEATHS) to make easier the data analysis.
+#' \code{eq_clean_data} processes the earthquake's variables in the NOAA's raw
+#' database with the date (i.e., DATE, YEAR, MONTH, DAY, and HOUR original
+#' variables), latitude (LATITUDE), longitude (LONGITUDE), magnitude
+#' (EQ_PRIMARY), and total deaths (TOTAL_DEATHS) to make easier the data
+#' analysis.
 #'
 #' @param data A data frame or tibble object with the above variables.
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
@@ -29,6 +64,8 @@ download_earthquake_data <- function(){
 #' @importFrom tidyr unite
 #' @importFrom dplyr %>% mutate
 #' @importFrom lubridate ymd_h
+#' @seealso \code{\link{eq_location_clean}} for process the location name
+#' variable.
 #' @examples
 #' raw_data <- download_earthquake_data()
 #' clean_data <- eq_clean_data(raw_data)
@@ -45,8 +82,9 @@ eq_clean_data <- function(data){
 
 #' Cleans the location name of the earthquake.
 #'
-#' With \code{eq_location_clean} you can get rid of the country for the variable
-#' \code{LOCATION_NAME} and convert the location name into title case.
+#' With \code{eq_location_clean} you can get rid of the country in the \code{LOCATION_NAME}
+#' variable of the \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{NOAA's Significant Earthquake database}
+#' and convert it into title case.
 #'
 #' @param data A data frame or tibble object with the above variable.
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
@@ -54,10 +92,10 @@ eq_clean_data <- function(data){
 #' @export
 #' @importFrom dplyr %>% mutate
 #' @importFrom stringr str_to_title
+#' @seealso \code{\link{eq_clean_data}} for process other key variables.
 #' @examples
 #' raw_data <- download_earthquake_data()
-#' clean_data <- eq_clean_data(raw_data)
-#' clean_data <- eq_location_clean(clean_data)
+#' clean_data <- eq_location_clean(raw_data)
 eq_location_clean <- function(data){
   data %>%
   dplyr::mutate(LOCATION_NAME = stringr::str_to_title(LOCATION_NAME),

@@ -9,7 +9,32 @@ eq_map(data, annot_col)
 \arguments{
 \item{data}{A \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 object with the earthquake epicenters.}
+
+\item{annot_col}{A character vector in HTML format with text content to be
+displayed in popup text labels (i.e., text shown in click-interactive points).}
 }
 \description{
-Displays an R Leaflet map with the quake's epicenters.
+The epicenters take into account the quake's magnitude to display the radii.
+It allows to include popup labels based on the contents of a variable.
+}
+\section{Warning}{
+
+In order to work, the following variables must exist in the \code{data}
+object: LONGITUDE, LATITUDE, and EQ_PRIMARY (magnitude).
+}
+
+\examples{
+require(dplyr)
+
+# Before showing the interactive map, we need to tidy the data up.
+raw_data <- get_earthquake_data()
+clean_data <- eq_clean_data(raw_data)
+clean_data <- eq_location_clean(clean_data)
+
+# Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+# Mexico as of 2000.  The interactive map has popup text labels with the
+# quake's date.
+clean_data \%>\%
+  dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) \%>\%
+  eq_map(annot_col = "DATE")
 }

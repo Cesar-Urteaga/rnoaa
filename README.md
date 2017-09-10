@@ -28,36 +28,47 @@ This package allows you to get and clean the latest earthquake data from [the NO
 
 ``` r
 library(rnoaa)
+# In case you do not have internet access, you can use the get_earthquake_data 
+# function, which is a snapshot of the quake's data on September 05, 2017:
+# raw_data <- get_earthquake_data()
 raw_data <- download_earthquake_data()
+# Basically, converts some important variables into the right format.
 clean_data <- eq_clean_data(raw_data)
+# Tidies the variable with the quake's location.
 clean_data <- eq_location_clean(clean_data)
 ```
 
-Once the data was tidied, `rnoaa` includes two gplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
+Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
 
 ``` r
 library(dplyr)
 library(ggplot2)
 clean_data %>%
-  filter(COUNTRY == "MEXICO", 
+  filter(COUNTRY %in% c("CANADA", "USA", "MEXICO", 
+                        "CHINA", "JAPAN", "INDIA"),  
          !is.na(EQ_PRIMARY),
          YEAR %in% 2000:2016) %>% 
   ggplot(mapping = aes(x = DATE,
-                       #y = COUNTRY,
+                       y = COUNTRY,
                        size = EQ_PRIMARY,
-                       color = TOTAL_DEATHS,
+                       color = TOTAL_DEATHS / 1000,
                        label = LOCATION_NAME)
          ) +
   geom_timeline() +
-  geom_timeline_label(line_height = 2/3, angle = 10) +
+  geom_timeline_label(# We want to show the label for at most the two highest
+                      # earthquakes by size.
+                      n_max = 2, 
+                      line_height = 1 / 4, 
+                      angle = 10, 
+                      fontsize = 2.5) +
   labs(size = "Richter scale value",
-       color = "# deaths", 
+       color = "# deaths in thousands", 
        y = "") +
   guides(size = FALSE) +
   theme_timeline()
 ```
 
-![](man/figures/README-TimelineGeom-1.png)
+<img src="man/figures/README-TimelineGeom-1.png" style="display: block; margin: auto;" />
 
 Furthermore, it provides with functions to display the epicenters in an interactive R Leaflet map:
 

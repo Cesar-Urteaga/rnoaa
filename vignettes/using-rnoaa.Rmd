@@ -1,10 +1,10 @@
 ---
-title: "Introduction to the rfars package"
+title: "Introduction to the rnoaa package"
 author: "Cesar R. Urteaga-Reyesvera"
 date: "2017-08-27"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to the rfars package}
+  %\VignetteIndexEntry{Introduction to the rnoaa package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,6 +15,183 @@ knitr::opts_chunk$set(# Collapse output blocks
                       comment = "#>", 
                       fig.width = 7, 
                       fig.height = 7, 
-                      fig.align = "center")
-library(rnoaa)
+                      fig.align = "center", 
+                      warning = FALSE)
 ```
+
+This vignette describes what is the `rnoaa` package and how should be used.
+
+## Description
+
+The `rnoaa` package bundles a set of functions to analyze the data from the [NOAA's Significant Earthquake dataset](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1).
+
+## Usage
+
+### Tidying the data
+
+#### Obtaining the data
+
+The function `get_earthquake_data` allows you to load a snapshot of the earthquake's data downloaded on September 05, 2017; on the proviso that you want to get the latest data from the NOAA's Website, you can use `download_earthquake_data` function (requires internet access).
+
+```{r}
+# Extracts the data from a compressed file.
+library(rnoaa)
+raw_data <- get_earthquake_data()
+```
+
+### Data processing
+
+Once the data was downloaded, you may want to prepare some key variables for data analysis; in particular, you could be interested in the quakes' date, location of the epicenter, magnitude, and the human cost of lives.  Moreover, the name of the place in which the quake has taken place could be of concern.  So, `eq_clean_data` and `eq_create_label` functions allows you to mop these variables up for analysis.
+
+```{r}
+# Tidies the data up for analysis.
+clean_data <- eq_clean_data(raw_data)
+clean_data <- eq_location_clean(clean_data)
+```
+
+### Analyzing the data
+
+#### Visualizing the data with ggplot2
+
+One of the features of the `rnoaa` package is that has two ggplot2's geoms which assist you to visualize the timeline in which the earthquakes have ocurred: `geom_timeline` and `geom_timeline_label`.
+
+The `geom_timeline` displays each observation in a timeline to visualize the dates in which the quakes have played out.  Due to this geom inherit its attributes from the class of `geom_point`, you can use the aesthetics of `size` and `color` to display some other earthquake's attributes as magnitude and impact of human casualties.
+
+The package comes with a new ggplot2's theme (i.e., `theme_timeline`) so as to make easier the understanding of the data.
+
+```{r, fig.height = 4, message = FALSE}
+library(ggplot2)
+library(dplyr)
+
+# Timeline of earthquakes occurred as of 2000 in Chile.
+clean_data %>%
+  filter(COUNTRY == "CHILE",
+         !is.na(EQ_PRIMARY),
+         YEAR %in% 2000:2016) %>%
+  ggplot(mapping = aes(x = DATE,
+                       size = EQ_PRIMARY,
+                       color = TOTAL_DEATHS / 100)
+         ) +
+  geom_timeline() +
+  labs(size = "Richter scale value",
+       color = "# deaths in hundreds",
+       y = "") +
+  theme_timeline()
+```
+
+Note that the `y` aesthetic is not required, unless you may want to display two or more timelines, in which case permits you to visualize the quakes for different countries.
+
+```{r, fig.height = 5}
+# Quakes in 2017.
+clean_data %>%
+  filter(!is.na(EQ_PRIMARY),
+         YEAR == 2017) %>%
+  ggplot(mapping = aes(x = DATE,
+                       y = COUNTRY,
+                       size = EQ_PRIMARY,
+                       color = TOTAL_DEATHS,
+                       label = LOCATION_NAME)
+         ) +
+  geom_timeline() +
+  labs(size = "Richter scale value",
+       color = "# deaths",
+       y = "") +
+  theme_timeline()
+```
+
+If you need to identify the most powerful earthquakes, you can use the `geom_timeline_label` along with the `n_max` parameter.  It labels the quakes with greater intensity in case you have provided the `size` aesthetic.
+
+```{r, fig.height = 4}
+# Quakes in Mexico
+clean_data %>%
+  filter(COUNTRY == "MEXICO",
+         !is.na(EQ_PRIMARY),
+         YEAR %in% 2000:2017) %>%
+  ggplot(mapping = aes(x = DATE,
+                       size = EQ_PRIMARY,
+                       color = TOTAL_DEATHS,
+                       label = LOCATION_NAME)
+         ) +
+  geom_timeline() +
+  # We label the five biggest quakes in size.
+  geom_timeline_label(n_max = 5,
+                      line_height = 1 / 5) +
+  labs(size  = "Richter scale value",
+       color = "# deaths",
+       y = "") +
+  theme_timeline()
+```
+
+The `size` aesthetic is not required, in which case the geom displays the label of the last observations.
+
+```{r, fig.height = 4}
+# Quakes in Mexico
+clean_data %>%
+  filter(COUNTRY == "MEXICO",
+         !is.na(EQ_PRIMARY),
+         YEAR %in% 2000:2005) %>%
+  ggplot(mapping = aes(x = DATE,
+                       color = TOTAL_DEATHS,
+                       label = LOCATION_NAME)
+         ) +
+  geom_timeline() +
+  # By default, shows the three greatest quakes.
+  geom_timeline_label(angle = 10,
+                      line_height = 1 / 5) +
+  labs(color = "# deaths",
+       y = "") +
+  theme_timeline()
+```
+
+The parameter `line_height` control the way how the vertical lines of the text labels are displayed, and since it is proportional to the available space, it avoids the overlapping with other levels (e.g., countries).  In addition, you can use the following parameters to change the appearance of the text labels: `angle`, `line_height`, and `fontsize`.
+
+```{r}
+# Quakes observerd from 1982 to 1983.
+clean_data %>%
+  filter(!is.na(EQ_PRIMARY),
+         YEAR %in% 1982:1983) %>%
+  ggplot(mapping = aes(x = DATE,
+                       y = COUNTRY,
+                       size = EQ_PRIMARY,
+                       color = TOTAL_DEATHS,
+                       label = LOCATION_NAME)
+         ) +
+  geom_timeline() +
+  # We label the most powerful quakes for each country.
+  geom_timeline_label(n_max = 1, 
+                      angle = 0,
+                      line_height = 1 / 5, 
+                      fontsize = 2.7) +  
+  labs(size = "Richter scale value",
+       color = "# deaths",
+       y = "") +
+  theme_timeline()
+```
+
+#### Visualizing the data with R's leaflet maps
+
+`rnoaa` not only uses ggplot2's geoms but also R's leaflet maps.  The latter provide a greater user-interaction since they have a manifold of features (e.g., popup text labels, mini-maps, option buttons, etc.).
+
+The package has the `eq_map` function that displays an R Leaflet map with the quake's epicenters and information of a given variable. 
+
+```{r}
+# Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+# Indonesia as of 2000.  The interactive map has popup text labels with the
+# quake's date.
+clean_data %>%
+  dplyr::filter(COUNTRY == "INDONESIA" & lubridate::year(DATE) >= 2000) %>%
+  eq_map(annot_col = "DATE")
+```
+
+Also, the package come along with the `eq_create_label` function, that can be used to provide additional information of the popup text labels displayed in the R Leaflet map.
+
+```{r}
+# Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+# Indonesia as of 2000.  The interactive map has popup text labels with the
+# location, magnitude, and total deaths.
+clean_data %>%
+  dplyr::filter(COUNTRY == "INDONESIA" & lubridate::year(DATE) >= 2000) %>%
+  dplyr::mutate(popup_text = eq_create_label(.)) %>%
+  eq_map(annot_col = "popup_text")
+```
+

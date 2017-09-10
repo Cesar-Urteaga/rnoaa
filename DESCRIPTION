@@ -1,13 +1,13 @@
 Package: rnoaa
 Version: 0.1.0
-Title: Functions to get, clean, visualize, and analize the NOAA's quake data
+Title: Functions to get, clean, visualize, and analize the NOAA's quake database
 Description: A package developed for the capstone project of the Coursera's
     specialization "Mastering Software Development in R" offered by the Johns
-    Hopkins University.  It consists of a set of functions used to get, clean,
-    visualize, and analyze the earthquake data provided from the US National
+    Hopkins University.  It consists of a set of functions to get, clean,
+    visualize, and analyze the earthquake data provided by the US National
     Oceanic and Atmospheric Administration (NOAA).  The package includes two
-    ggplot2's geoms to examine the timeline in which the quakes occurred, and
-    provides with two functions to visualize the earthquake's epicenters in an
+    ggplot2's geoms to examine the timeline in which the quakes have occurred 
+    and it also has two functions to visualize the earthquake's epicenters in an 
     interactive way using the R's Leaflet maps.
 Authors@R: person("Cesar", "Urteaga", , "cesar@no-reply.com", c("aut", "cre"))
 Depends:

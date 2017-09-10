@@ -14,11 +14,14 @@ Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 object.
 }
 \description{
-With \code{eq_location_clean} you can get rid of the country for the variable
-\code{LOCATION_NAME} and convert the location name into title case.
+With \code{eq_location_clean} you can get rid of the country in the \code{LOCATION_NAME}
+variable of the \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{NOAA's Significant Earthquake database}
+and convert it into title case.
 }
 \examples{
 raw_data <- download_earthquake_data()
-clean_data <- eq_clean_data(raw_data)
-clean_data <- eq_location_clean(clean_data)
+clean_data <- eq_location_clean(raw_data)
+}
+\seealso{
+\code{\link{eq_clean_data}} for process other key variables.
 }

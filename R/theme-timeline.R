@@ -11,7 +11,6 @@ theme_timeline <- function(){
   ggplot2::theme(legend.position = "bottom",
                  axis.line.x     = ggplot2::element_line(colour = "black"),
                  axis.ticks.x    = ggplot2::element_line(colour = "black"),
-                 axis.text.y     = ggplot2::element_blank(),
                  # remove the vertical grid lines
                  panel.grid.minor.x = ggplot2::element_blank(),
                  panel.grid.major.x = ggplot2::element_blank(),

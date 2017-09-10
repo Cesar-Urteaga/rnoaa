@@ -1,11 +1,41 @@
-#' Timeline
+#' Timeline ggplot2's geom
 #'
 #' The \code{geom_timeline} displays the timeline of the observations along
-#' with each point observed during the timeline's period.
+#' with each point observed during the given period.
 #'
 #' @inheritParams ggplot2::layer
+#' @param na.rm If `FALSE`, the default, missing values are removed with
+#'   a warning. If `TRUE`, missing values are silently removed.
+#' @param ... other arguments passed on to the layer function. These are
+#'   often aesthetics, used to set an aesthetic to a fixed value, like
+#'   `color = "red"` or `size = 3`. They may also be parameters
+#'   to the paired geom/stat.
 #' @export
 #' @importFrom ggplot2 layer
+#' @seealso \code{\link{geom_timeline_label}} to include labels for each
+#' observation.
+#' @examples
+#' require(dplyr)
+#' require(ggplot2)
+#'
+#' # Before using the geom, we need to tidy the data up.
+#' raw_data <- get_earthquake_data()
+#' clean_data <- eq_clean_data(raw_data)
+#'
+#' # Quakes in USA
+#' clean_data %>%
+#'   filter(COUNTRY == "USA",
+#'          !is.na(EQ_PRIMARY),
+#'          YEAR %in% 2000:2016) %>%
+#'   ggplot(mapping = aes(x = DATE,
+#'                        size = EQ_PRIMARY,
+#'                        color = TOTAL_DEATHS)
+#'          ) +
+#'   geom_timeline() +
+#'   labs(size = "Richter scale value",
+#'        color = "# deaths",
+#'        y = "") +
+#'   theme_timeline()
 geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
                           position = "identity", show.legend = NA,
                           inherit.aes = TRUE, na.rm = FALSE,
@@ -41,7 +71,7 @@ GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
                             dates_grob <- ggplot2::GeomPoint$draw_panel(data,
                               panel_params, coord)
                             coords <- coord$transform(data, panel_params)
-                            # Includes the timeline along the above data points.
+                            # Includes the timeline along the data points.
                             timeline_grob <- grid::polylineGrob(
                               coords$x, coords$y,
                               id = coords$group,

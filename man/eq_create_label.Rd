@@ -2,15 +2,39 @@
 % Please edit documentation in R/leaflet-functions.R
 \name{eq_create_label}
 \alias{eq_create_label}
-\title{Creates the R Leaflet maps' labels with the quake's traits.}
+\title{Creates R Leaflet maps' popup text labels with quake's traits.}
 \usage{
 eq_create_label(data)
 }
 \arguments{
 \item{data}{A \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
-object with the earthquake traits(i.e., location name, magnitude, and
+object with the earthquake traits (i.e., location name, magnitude, and
 total deaths).}
 }
 \description{
-Creates the R Leaflet maps' labels with the quake's traits.
+\code{eq_create_label} is useful to create the information that will be
+displayed in the text popup labels of the \code{\link{eq_map}} function.
+}
+\section{Warning}{
+
+In order to work, the following variables must exist in the \code{data}
+object: LOCATION_NAME (location name), EQ_PRIMARY (magnitude), and
+TOTAL_DEATHS (total deaths).
+}
+
+\examples{
+require(dplyr)
+
+# Before showing the interactive map, we need to tidy the data up.
+raw_data <- get_earthquake_data()
+clean_data <- eq_clean_data(raw_data)
+clean_data <- eq_location_clean(clean_data)
+
+# Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+# Mexico as of 2000.  The interactive map has popup text labels with the
+# location, magnitude, and total deaths.
+clean_data \%>\%
+  dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) \%>\%
+  dplyr::mutate(popup_text = eq_create_label(.)) \%>\%
+  eq_map(annot_col = "popup_text")
 }

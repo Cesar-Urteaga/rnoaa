@@ -2,7 +2,7 @@
 % Please edit documentation in R/data-functions.R
 \name{eq_clean_data}
 \alias{eq_clean_data}
-\title{Prepares some earthquake's key variables.}
+\title{Prepares some earthquake's key variables for data analysis.}
 \usage{
 eq_clean_data(data)
 }
@@ -14,11 +14,17 @@ Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 object with the processed data.
 }
 \description{
-\code{eq_clean_data} processes the earthquake's variables with the date,
-latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total
-deaths (TOTAL_DEATHS) to make easier the data analysis.
+\code{eq_clean_data} processes the earthquake's variables in the NOAA's raw
+database with the date (i.e., DATE, YEAR, MONTH, DAY, and HOUR original
+variables), latitude (LATITUDE), longitude (LONGITUDE), magnitude
+(EQ_PRIMARY), and total deaths (TOTAL_DEATHS) to make easier the data
+analysis.
 }
 \examples{
 raw_data <- download_earthquake_data()
 clean_data <- eq_clean_data(raw_data)
+}
+\seealso{
+\code{\link{eq_location_clean}} for process the location name
+variable.
 }
