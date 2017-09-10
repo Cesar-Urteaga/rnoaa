@@ -102,4 +102,4 @@ clean_data %>%
 
 ## Documentation
 
-Please check the [package's vignette](./vignettes/using-rnoaa.Rmd) to see further examples or review the examples given in the package's documentation (use `?function_name`).
+Please check the [package's vignette](./vignettes/using-rnoaa.Rmd) to see how the package works or review the examples given in the package's documentation (use `?function_name`); you can run them with the function `example` (e.g., `example("geom_timeline_label")`).
