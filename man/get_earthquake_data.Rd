@@ -12,7 +12,7 @@ object.
 }
 \description{
 It reads the \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{Significant Earthquake database}
-from a plain file downloaded on September 05, 2017 from the NOAA's Webpage
+from a plain file downloaded on September 10, 2017 from the NOAA's Webpage
 (i.e., no internet connection is needed); in case you want the latest
 information, you can use the \code{\link{download_earthquake_data}} function.
 }

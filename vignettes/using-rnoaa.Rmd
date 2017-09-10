@@ -11,11 +11,11 @@ vignette: >
 
 ```{r Setup, include = FALSE}
 knitr::opts_chunk$set(# Collapse output blocks
-                      collapse = TRUE, 
-                      comment = "#>", 
-                      fig.width = 7, 
-                      fig.height = 7, 
-                      fig.align = "center", 
+                      collapse = TRUE,
+                      comment = "#>",
+                      fig.width = 7,
+                      fig.height = 7,
+                      fig.align = "center",
                       warning = FALSE)
 ```
 
@@ -31,7 +31,7 @@ The `rnoaa` package bundles a set of functions to analyze the data from the [NOA
 
 #### Obtaining the data
 
-The function `get_earthquake_data` allows you to load a snapshot of the earthquake's data downloaded on September 05, 2017; on the proviso that you want to get the latest data from the NOAA's Website, you can use `download_earthquake_data` function (requires internet access).
+The function `get_earthquake_data` allows you to load a snapshot of the earthquake's data downloaded on September 10, 2017; on the proviso that you want to get the latest data from the NOAA's Website, you can use `download_earthquake_data` function (requires internet access).
 
 ```{r}
 # Extracts the data from a compressed file.
@@ -158,10 +158,10 @@ clean_data %>%
          ) +
   geom_timeline() +
   # We label the most powerful quakes for each country.
-  geom_timeline_label(n_max = 1, 
+  geom_timeline_label(n_max = 1,
                       angle = 0,
-                      line_height = 1 / 5, 
-                      fontsize = 2.7) +  
+                      line_height = 1 / 5,
+                      fontsize = 2.7) +
   labs(size = "Richter scale value",
        color = "# deaths",
        y = "") +
@@ -172,7 +172,7 @@ clean_data %>%
 
 `rnoaa` not only uses ggplot2's geoms but also R's leaflet maps.  The latter provide a greater user-interaction since they have a manifold of features (e.g., popup text labels, mini-maps, option buttons, etc.).
 
-The package has the `eq_map` function that displays an R Leaflet map with the quake's epicenters and information of a given variable. 
+The package has the `eq_map` function that displays an R Leaflet map with the quake's epicenters and information of a given variable.
 
 ```{r}
 # Displays an R's Leaflet map with the epicenters of earthquakes occurred in
