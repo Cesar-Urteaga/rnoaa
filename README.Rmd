@@ -102,4 +102,4 @@ clean_data %>%
 
 ## Documentation
 
-Please check the [package's vignette](./vignettes/using-rnoaa.Rmd) to see further examples.
+Please check the [package's vignette](./vignettes/using-rnoaa.Rmd) to see further examples or review the examples given in the package's documentation (use `?function_name`).
