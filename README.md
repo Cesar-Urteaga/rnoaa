@@ -90,3 +90,8 @@ clean_data %>%
 ```
 
 ![](./man/figures/README-LeafletMap-2.png?raw=true)
+
+Documentation
+-------------
+
+Please check the [package's vignette](./vignettes/using-rnoaa.Rmd) to see further examples.
