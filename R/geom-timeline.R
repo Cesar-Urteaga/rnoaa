@@ -55,8 +55,9 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @importFrom plyr defaults
 #' @importFrom grid polylineGrob gpar grobTree
 GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
-                          # Because this geom is quite similar to the GeomPoint,
-                          # we can recycle it instead of reinventing the wheel.
+                          # Because this geom is quite similar to the GeomPoint
+                          # class, we can recycle it instead of reinventing the
+                          # wheel.
                           `_inherit`      = ggplot2::GeomPoint,
                           required_aes    = "x",
                           default_aes     = plyr::defaults(
