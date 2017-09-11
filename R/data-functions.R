@@ -61,7 +61,7 @@ download_earthquake_data <- function(){
 #' object with the processed data.
 #' @export
 #' @importFrom tidyr unite
-#' @importFrom dplyr %>% rowwise mutate
+#' @importFrom dplyr %>% rowwise mutate ungroup
 #' @section Notes:
 #' One of the benefits of using this function is that it converts dates B.C.
 #' into the \code{Date} class; futhermore, when the month or/and day is/are
@@ -80,7 +80,8 @@ eq_clean_data <- function(data){
                   LONGITUDE    = as.numeric(LONGITUDE),
                   EQ_PRIMARY   = as.numeric(EQ_PRIMARY),
                   TOTAL_DEATHS = as.numeric(TOTAL_DEATHS)
-                  )
+                  ) %>%
+    dplyr::ungroup()
   }
 
 #' Cleans the location name of the earthquake.
