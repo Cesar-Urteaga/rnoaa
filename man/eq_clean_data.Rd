@@ -15,11 +15,17 @@ object with the processed data.
 }
 \description{
 \code{eq_clean_data} processes the earthquake's variables in the NOAA's raw
-database with the date (i.e., DATE, YEAR, MONTH, DAY, and HOUR original
-variables), latitude (LATITUDE), longitude (LONGITUDE), magnitude
-(EQ_PRIMARY), and total deaths (TOTAL_DEATHS) to make easier the data
-analysis.
+database with the date (i.e., DATE, YEAR, MONTH, and DAY original variables),
+latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total
+deaths (TOTAL_DEATHS) to make easier the data analysis.
 }
+\section{Notes}{
+
+One of the benefits of using this function is that it converts dates B.C.
+into the \code{Date} class; futhermore, when the month or/and day is/are
+missing, the date is approximated at the midpoint of the period.
+}
+
 \examples{
 raw_data <- download_earthquake_data()
 clean_data <- eq_clean_data(raw_data)

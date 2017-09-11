@@ -52,18 +52,20 @@ download_earthquake_data <- function(){
 #' Prepares some earthquake's key variables for data analysis.
 #'
 #' \code{eq_clean_data} processes the earthquake's variables in the NOAA's raw
-#' database with the date (i.e., DATE, YEAR, MONTH, DAY, and HOUR original
-#' variables), latitude (LATITUDE), longitude (LONGITUDE), magnitude
-#' (EQ_PRIMARY), and total deaths (TOTAL_DEATHS) to make easier the data
-#' analysis.
+#' database with the date (i.e., DATE, YEAR, MONTH, and DAY original variables),
+#' latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total
+#' deaths (TOTAL_DEATHS) to make easier the data analysis.
 #'
 #' @param data A data frame or tibble object with the above variables.
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #' object with the processed data.
 #' @export
 #' @importFrom tidyr unite
-#' @importFrom dplyr %>% mutate
-#' @importFrom lubridate ymd_h
+#' @importFrom dplyr %>% rowwise mutate
+#' @section Notes:
+#' One of the benefits of using this function is that it converts dates B.C.
+#' into the \code{Date} class; futhermore, when the month or/and day is/are
+#' missing, the date is approximated at the midpoint of the period.
 #' @seealso \code{\link{eq_location_clean}} for process the location name
 #' variable.
 #' @examples
@@ -71,8 +73,9 @@ download_earthquake_data <- function(){
 #' clean_data <- eq_clean_data(raw_data)
 eq_clean_data <- function(data){
   data %>%
-    tidyr::unite(DATE, YEAR, MONTH, DAY, HOUR, remove = FALSE) %>%
-    dplyr::mutate(DATE         = lubridate::ymd_h(DATE),
+    # If we want to use the approximate_date function by row, we need this.
+    dplyr::rowwise() %>%
+    dplyr::mutate(DATE         = approximate_date(YEAR, MONTH, DAY),
                   LATITUDE     = as.numeric(LATITUDE),
                   LONGITUDE    = as.numeric(LONGITUDE),
                   EQ_PRIMARY   = as.numeric(EQ_PRIMARY),
@@ -91,16 +94,24 @@ eq_clean_data <- function(data){
 #' object.
 #' @export
 #' @importFrom dplyr %>% mutate
-#' @importFrom stringr str_to_title
+#' @importFrom purrr map2_chr
+#' @importFrom stringr str_to_title str_trim
 #' @seealso \code{\link{eq_clean_data}} for process other key variables.
 #' @examples
 #' raw_data <- download_earthquake_data()
 #' clean_data <- eq_location_clean(raw_data)
 eq_location_clean <- function(data){
-  data %>%
-  dplyr::mutate(LOCATION_NAME = stringr::str_to_title(LOCATION_NAME),
-                LOCATION_NAME = gsub("^.+:", "", LOCATION_NAME),
-                LOCATION_NAME = gsub(",", ", ", LOCATION_NAME),
-                LOCATION_NAME = gsub("[ ]{2,}", " ", LOCATION_NAME)
-                )
+  data <- data %>%
+  dplyr::mutate(
+    LOCATION_NAME = purrr::map2_chr(COUNTRY, LOCATION_NAME,
+      function(country, location){
+        gsub(paste0("^",country, "(:|;) "), "", location)
+        }),
+    LOCATION_NAME = stringr::str_to_title(LOCATION_NAME),
+    LOCATION_NAME = stringr::str_trim(LOCATION_NAME),
+    LOCATION_NAME = gsub(",", ", ", LOCATION_NAME),
+    LOCATION_NAME = gsub(";", "; ", LOCATION_NAME),
+    LOCATION_NAME = gsub("[ ]{2,}", " ", LOCATION_NAME)
+    )
+  data
   }
