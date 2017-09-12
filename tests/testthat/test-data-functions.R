@@ -1,6 +1,8 @@
 context("data functions")
 
 test_that("class is correct", {
+  skip("Skipped when we do not have internet access")
+
   # We expect that downloaded data is a tibble or data frame object and is of
   # the same class without regard whether the data was downloaded or loaded.
   downloaded_data <- download_earthquake_data()

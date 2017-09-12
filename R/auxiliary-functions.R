@@ -1,5 +1,9 @@
-# This function creates the quake's dates.
-approximate_date <- function(year, month, day){
+#-------------------------------------------------------------------------------
+# These functions are used for data processing.
+
+# Given a year, a month, and a day, it creates a date (i.e., an object of the
+# "Date" class).
+create_date <- function(year, month, day){
   # Constant that represents the days from January 01, 0000 to January 01, 1970.
   days_from_1970 <- 719528
   # We set up the midpoint of the period when the month or/and day is/are
@@ -61,7 +65,18 @@ approximate_date <- function(year, month, day){
     }
   } else
     temporal_date
-}
+  }
+
+# This function removes the country contained in the location name variable.
+#' @importFrom stringr str_to_title str_trim
+remove_country_from_location <- function(country, location){
+  temporal <- gsub(paste0("^", country, "(:|;) "), "", location)
+  temporal <- stringr::str_to_title(temporal)
+  temporal <- stringr::str_trim(temporal)
+  temporal <- gsub(",", ", ", temporal)
+  temporal <- gsub(";", "; ", temporal)
+  gsub("[ ]{2,}", " ", temporal)
+  }
 
 #-------------------------------------------------------------------------------
 # These functions are used in the gglot2's geoms.
@@ -86,11 +101,11 @@ next_y_cut <- function(y_value, n, percentage = 2 / 3){
   } else {
     return(cuts[index] + (cuts[index + 1] - cuts[index]) * percentage)
   }
-}
+  }
 
 # I have taken this function from the ggplot2 package, see:
 # https://raw.githubusercontent.com/tidyverse/ggplot2/master/R/utilities-grid.r
 ggname <- function(prefix, grob) {
   grob$name <- grid::grobName(grob, prefix)
   grob
-}
+  }

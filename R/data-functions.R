@@ -78,9 +78,9 @@ download_earthquake_data <- function(){
 #' clean_data <- eq_clean_data(raw_data)
 eq_clean_data <- function(data){
   data %>%
-    # If we want to use the approximate_date function by row, we need this.
+    # If we want to use the create_date function by row, we need this.
     dplyr::rowwise() %>%
-    dplyr::mutate(DATE         = approximate_date(YEAR, MONTH, DAY),
+    dplyr::mutate(DATE         = create_date(YEAR, MONTH, DAY),
                   LATITUDE     = as.numeric(LATITUDE),
                   LONGITUDE    = as.numeric(LONGITUDE),
                   EQ_PRIMARY   = as.numeric(EQ_PRIMARY),
@@ -102,23 +102,16 @@ eq_clean_data <- function(data){
 #' @export
 #' @importFrom dplyr %>% mutate
 #' @importFrom purrr map2_chr
-#' @importFrom stringr str_to_title str_trim
 #' @seealso \code{\link{eq_clean_data}} for process other key variables.
 #' @examples
 #' raw_data <- download_earthquake_data()
 #' clean_data <- eq_location_clean(raw_data)
 eq_location_clean <- function(data){
-  data <- data %>%
-  dplyr::mutate(
-    LOCATION_NAME = purrr::map2_chr(COUNTRY, LOCATION_NAME,
-      function(country, location){
-        gsub(paste0("^",country, "(:|;) "), "", location)
-        }),
-    LOCATION_NAME = stringr::str_to_title(LOCATION_NAME),
-    LOCATION_NAME = stringr::str_trim(LOCATION_NAME),
-    LOCATION_NAME = gsub(",", ", ", LOCATION_NAME),
-    LOCATION_NAME = gsub(";", "; ", LOCATION_NAME),
-    LOCATION_NAME = gsub("[ ]{2,}", " ", LOCATION_NAME)
-    )
-  data
+  data %>%
+    # We use the remove_country_from_location function in the
+    # auxiliary-functions.R file.
+    dplyr::mutate(
+      LOCATION_NAME = purrr::map2_chr(COUNTRY, LOCATION_NAME,
+                                      remove_country_from_location)
+      )
   }
