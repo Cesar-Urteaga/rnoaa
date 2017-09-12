@@ -19,7 +19,7 @@ knitr::opts_chunk$set(# Collapse output blocks
                       warning = FALSE)
 ```
 
-This vignette describes what is the `rnoaa` package and how should be used.
+This vignette describes what is the `rnoaa` package and how it should be used.
 
 ## Description
 
@@ -187,6 +187,32 @@ clean_data %>%
   theme_timeline()
 ```
 
+As a result of using the package to create the quakes' dates, we can visualize the earthquakes that had ocurred B.C.E.
+
+```{r}
+# Quakes observed B.C.E.
+clean_data %>%
+  filter(!is.na(EQ_PRIMARY),
+         YEAR < 0) %>%
+  ggplot(mapping = aes(x = DATE,
+                       y = COUNTRY,
+                       size = EQ_PRIMARY,
+                       color = TOTAL_DEATHS / 1000,
+                       label = LOCATION_NAME)
+         ) +
+  geom_timeline() +
+  # We label the most powerful quakes for each country.
+  geom_timeline_label(n_max = 1,
+                      angle = 0,
+                      line_height = 1 / 5,
+                      fontsize = 2.7) +
+  labs(size = "Richter scale value",
+       color = "# deaths in thousands",
+       y = "") +
+  theme_timeline()
+```
+
+
 #### Visualizing the data with R's leaflet maps
 
 `rnoaa` not only uses ggplot2's geoms but also R's leaflet maps.  The latter provide a greater user-interaction since they have a manifold of features (e.g., popup text labels, mini-maps, option buttons, etc.).
@@ -194,9 +220,9 @@ clean_data %>%
 The package has the `eq_map` function that displays an R leaflet map with the quake's epicenters and information of a given variable.
 
 ```{r}
-# Displays an R's leaflet map with the epicenters of earthquakes occurred in
-# Indonesia as of 2000.  The interactive map has popup text labels with the
-# quakes' date.
+# Displays an R's leaflet map with the epicenters of earthquakes thad have 
+# occurred in Indonesia as of 2000.  The interactive map has popup text labels 
+# with the date of occurrence.
 clean_data %>%
   dplyr::filter(COUNTRY == "INDONESIA" & lubridate::year(DATE) >= 2000) %>%
   eq_map(annot_col = "DATE")
@@ -205,9 +231,9 @@ clean_data %>%
 Also, the package come along with the `eq_create_label` function that can be used to provide additional information within the popup text labels displayed on the R leaflet map.
 
 ```{r}
-# Displays an R's leaflet map with the epicenters of earthquakes occurred in
-# Indonesia as of 2000.  The interactive map has popup text labels with the
-# location, magnitude, and total deaths.
+# Displays an R's leaflet map with the epicenters of the earthquakes that have 
+# occurred in Indonesia as of 2000.  The interactive map has popup text labels 
+# with the location, magnitude, and total deaths.
 clean_data %>%
   dplyr::filter(COUNTRY == "INDONESIA" & lubridate::year(DATE) >= 2000) %>%
   dplyr::mutate(popup_text = eq_create_label(.)) %>%

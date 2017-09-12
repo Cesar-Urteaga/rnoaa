@@ -30,9 +30,9 @@ providers <- leaflet::providers
 #' clean_data <- eq_clean_data(raw_data)
 #' clean_data <- eq_location_clean(clean_data)
 #'
-#' # Displays an R's leaflet map with the epicenters of earthquakes occurred in
-#' # Mexico as of 2000.  The interactive map has popup text labels with the
-#' # quake's date.
+#' # Displays an R's leaflet map with the epicenters of the earthquakes that
+#' # have occurred in Mexico as of 2000.  The interactive map has popup text
+#' # labels with the date of occurrence.
 #' clean_data %>%
 #'   dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) %>%
 #'   eq_map(annot_col = "DATE")
@@ -103,9 +103,9 @@ eq_map <- function(data, annot_col){
 #' clean_data <- eq_clean_data(raw_data)
 #' clean_data <- eq_location_clean(clean_data)
 #'
-#' # Displays an R's leaflet map with the epicenters of earthquakes occurred in
-#' # Mexico as of 2000.  The interactive map has popup text labels with the
-#' # location, magnitude, and total deaths.
+#' # Displays an R's leaflet map with the epicenters of the earthquakes that
+#' # have occurred in Mexico as of 2000.  The interactive map has popup text
+#' # labels with the location, magnitude, and total deaths.
 #' clean_data %>%
 #'   dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(DATE) >= 2000) %>%
 #'   dplyr::mutate(popup_text = eq_create_label(.)) %>%
