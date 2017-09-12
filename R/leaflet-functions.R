@@ -1,9 +1,9 @@
 #' @export
-# Exports the list of Leaflet's providers; it is necessary so as to the other
+# Exports the list of leaflet's providers; it is necessary so as to the other
 # functions work.
 providers <- leaflet::providers
 
-#' Displays an R Leaflet map with the quake's epicenters.
+#' Displays an R leaflet map with the quake's epicenters.
 #'
 #' The epicenters take into account the quake's magnitude to display the radii.
 #' It allows to include popup labels based on the contents of a variable.
@@ -29,7 +29,7 @@ providers <- leaflet::providers
 #' clean_data <- eq_clean_data(raw_data)
 #' clean_data <- eq_location_clean(clean_data)
 #'
-#' # Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+#' # Displays an R's leaflet map with the epicenters of earthquakes occurred in
 #' # Mexico as of 2000.  The interactive map has popup text labels with the
 #' # quake's date.
 #' clean_data %>%
@@ -38,7 +38,7 @@ providers <- leaflet::providers
 eq_map <- function(data, annot_col){
   # Calculates the outline of the observed quake's epicenters.
   outline <- data[chull(data$LONGITUDE, data$LATITUDE),]
-  # Renders the epicenters in an R's Leaflet map, please refer to:
+  # Renders the epicenters in an R's leaflet map, please refer to:
   # https://rstudio.github.io/leaflet/
   map <- data %>%
     dplyr::mutate_(popup_text = as.name(annot_col)) %>%
@@ -78,7 +78,7 @@ eq_map <- function(data, annot_col){
   map
 }
 
-#' Creates R Leaflet maps' popup text labels with quake's traits.
+#' Creates R leaflet maps' popup text labels with quake's traits.
 #'
 #' \code{eq_create_label} is useful to create the information that will be
 #' displayed in the text popup labels of the \code{\link{eq_map}} function.
@@ -102,7 +102,7 @@ eq_map <- function(data, annot_col){
 #' clean_data <- eq_clean_data(raw_data)
 #' clean_data <- eq_location_clean(clean_data)
 #'
-#' # Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+#' # Displays an R's leaflet map with the epicenters of earthquakes occurred in
 #' # Mexico as of 2000.  The interactive map has popup text labels with the
 #' # location, magnitude, and total deaths.
 #' clean_data %>%

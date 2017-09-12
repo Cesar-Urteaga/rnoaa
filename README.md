@@ -70,7 +70,7 @@ clean_data %>%
 
 <img src="man/figures/README-TimelineGeom-1.png" style="display: block; margin: auto;" />
 
-Furthermore, it provides with functions to display the epicenters in an interactive R Leaflet map:
+Furthermore, it provides with functions to display the epicenters in an interactive R leaflet map:
 
 ``` r
 clean_data %>%

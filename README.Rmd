@@ -79,7 +79,7 @@ clean_data %>%
   theme_timeline()
 ```
 
-Furthermore, it provides with functions to display the epicenters in an interactive R Leaflet map:
+Furthermore, it provides with functions to display the epicenters in an interactive R leaflet map:
 
 ```{r, eval = FALSE}
 clean_data %>%

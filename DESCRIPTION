@@ -6,9 +6,9 @@ Description: A package developed for the capstone project of the Coursera's
     Hopkins University.  It consists of a set of functions to get, clean,
     visualize, and analyze the earthquake data provided by the US National
     Oceanic and Atmospheric Administration (NOAA).  The package includes two
-    ggplot2's geoms to examine the timeline in which the quakes have occurred 
-    and it also has two functions to visualize the earthquake's epicenters in an 
-    interactive way using the R's Leaflet maps.
+    ggplot2's geoms to examine the timeline in which the quakes have occurred
+    and it also has two functions to visualize the earthquake's epicenters in an
+    interactive way using the R's leaflet maps.
 Authors@R: person("Cesar", "Urteaga", , "cesar@no-reply.com", c("aut", "cre"))
 Depends:
     R (>= 3.4.1)

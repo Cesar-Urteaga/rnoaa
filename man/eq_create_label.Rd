@@ -2,7 +2,7 @@
 % Please edit documentation in R/leaflet-functions.R
 \name{eq_create_label}
 \alias{eq_create_label}
-\title{Creates R Leaflet maps' popup text labels with quake's traits.}
+\title{Creates R leaflet maps' popup text labels with quake's traits.}
 \usage{
 eq_create_label(data)
 }
@@ -30,7 +30,7 @@ raw_data <- get_earthquake_data()
 clean_data <- eq_clean_data(raw_data)
 clean_data <- eq_location_clean(clean_data)
 
-# Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+# Displays an R's leaflet map with the epicenters of earthquakes occurred in
 # Mexico as of 2000.  The interactive map has popup text labels with the
 # location, magnitude, and total deaths.
 clean_data \%>\%

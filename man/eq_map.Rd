@@ -2,7 +2,7 @@
 % Please edit documentation in R/leaflet-functions.R
 \name{eq_map}
 \alias{eq_map}
-\title{Displays an R Leaflet map with the quake's epicenters.}
+\title{Displays an R leaflet map with the quake's epicenters.}
 \usage{
 eq_map(data, annot_col)
 }
@@ -31,7 +31,7 @@ raw_data <- get_earthquake_data()
 clean_data <- eq_clean_data(raw_data)
 clean_data <- eq_location_clean(clean_data)
 
-# Displays an R's Leaflet map with the epicenters of earthquakes occurred in
+# Displays an R's leaflet map with the epicenters of earthquakes occurred in
 # Mexico as of 2000.  The interactive map has popup text labels with the
 # quake's date.
 clean_data \%>\%
