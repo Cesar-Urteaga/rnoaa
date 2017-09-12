@@ -2,7 +2,7 @@
 % Please edit documentation in R/leaflet-functions.R
 \name{eq_create_label}
 \alias{eq_create_label}
-\title{Creates R leaflet maps' popup text labels with quake's traits.}
+\title{Creates R leaflet maps' popup text labels with the quake's traits.}
 \usage{
 eq_create_label(data)
 }

@@ -26,7 +26,8 @@ get_earthquake_data <- function(){
   readr::read_delim(data_file, delim = "\t")
 }
 
-#' Downloads the latest NOAA's Significant Earthquake dataset.
+#' Downloads the latest NOAA's Significant Earthquake dataset (requires
+#' internet access).
 #'
 #' The function \code{download_earthquake_data} gets the most recent earthquake
 #' data from \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{the NOAA's Webpage}.
@@ -49,21 +50,25 @@ download_earthquake_data <- function(){
   readr::read_delim(temporal_file, delim = "\t")
   }
 
-#' Prepares some earthquake's key variables for data analysis.
+#' Creates the earthquakes' date of occurrence and prepares some key variables
+#' for data analysis.
 #'
-#' \code{eq_clean_data} processes the earthquake's variables in the NOAA's raw
-#' database with the date (i.e., DATE, YEAR, MONTH, and DAY original variables),
-#' latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total
-#' deaths (TOTAL_DEATHS) to make easier the data analysis.
+#' \code{eq_clean_data} processes the following variables in the NOAA's raw
+#' database in order to create the date of each reported earthquake: YEAR,
+#' MONTH, and DAY.  So too, it processes the variables with the latitude
+#' (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total deaths
+#' (TOTAL_DEATHS) to make easier the data analysis.
 #'
-#' @param data A data frame or tibble object with the above variables.
+#' @param data A data frame or tibble object with the dates of occurrence of the
+#' earthquakes (\code{DATE}) and the variables with the latitude, longitude,
+#' magnitude, and total deaths changed to the \code{\link{numeric}} type.
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #' object with the processed data.
 #' @export
 #' @importFrom tidyr unite
 #' @importFrom dplyr %>% rowwise mutate ungroup
 #' @section Notes:
-#' One of the benefits of using this function is that it converts dates B.C.
+#' One of the benefits of using this function is that it converts dates B.C.E.
 #' into the \code{Date} class; futhermore, when the month or/and day is/are
 #' missing, the date is approximated at the midpoint of the period.
 #' @seealso \code{\link{eq_location_clean}} for process the location name
@@ -84,13 +89,14 @@ eq_clean_data <- function(data){
     dplyr::ungroup()
   }
 
-#' Cleans the location name of the earthquake.
+#' Tidies the earthquakes' location name variable up.
 #'
 #' With \code{eq_location_clean} you can get rid of the country in the \code{LOCATION_NAME}
-#' variable of the \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{NOAA's Significant Earthquake database}
-#' and convert it into title case.
+#' variable of the NOAA's quake database because this already exists in another
+#' variable (\code{COUNTRY}) and convert it into title case.
 #'
-#' @param data A data frame or tibble object with the above variable.
+#' @param data A data frame or tibble object with the \code{LOCATION_NAME}
+#' variable processed.
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #' object.
 #' @export

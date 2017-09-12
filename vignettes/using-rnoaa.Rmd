@@ -43,10 +43,27 @@ raw_data <- get_earthquake_data()
 
 Once the data was downloaded, you may wish to prepare some key variables for data analysis; in particular, you could be interested in the quakes' date, location of the epicenter, magnitude, and the human cost of lives.  Moreover, the name of the place in which the quake has taken place could be of your concern.  So, `eq_clean_data` and `eq_create_label` functions allows you to mop these variables up for analysis.
 
-```{r}
+The `eq_clean_data` function creates the quakes' dates based on the three time variables within the NOAA's dataset: `YEAR`, `MONTH`, and `DAY`.  Specifically, it creates the dates for earthquakes that had occurred Before the Common Era (B.C.E.); this enhances the R's functionality because it does not handle these dates.  In addition, when the month or/and day is/are missing, the date is approximated at the midpoint of the period.
+
+On the other hand, the `eq_location_clean` function removes the country from the variable that has the quake's location (i.e., `LOCATION_NAME` variable) due to it does not make sense to keep it since a variable with the country (i.e., `COUNTRY` variable) already exists.  
+
+```{r, message=FALSE}
+library(dplyr)
+
+# Before the data has been processed:
+raw_data %>% 
+  select(YEAR, MONTH, DAY, COUNTRY, LOCATION_NAME) %>% 
+  head()
+
 # Tidies the data up for analysis.
 clean_data <- eq_clean_data(raw_data)
 clean_data <- eq_location_clean(clean_data)
+
+# After the data has been processed (note that the DATE variable has been 
+# created and the country has been removed for the LOCATION_NAME variable):
+clean_data %>% 
+  select(YEAR, MONTH, DAY, DATE, COUNTRY, LOCATION_NAME) %>% 
+  head()
 ```
 
 ### Analyzing the data
@@ -55,13 +72,12 @@ clean_data <- eq_location_clean(clean_data)
 
 One of the features of the `rnoaa` package is that has two ggplot2's geoms which assist you to visualize the timeline in which the earthquakes have ocurred: `geom_timeline` and `geom_timeline_label`.
 
-The `geom_timeline` displays each observation in a timeline to visualize the dates in which the quakes have played out.  Due to this geom inherits its attributes from the class of `geom_point`, you can use the aesthetics of `size` and `color` to display some other earthquake's attributes such as magnitude and impact of human casualties.
+The `geom_timeline` displays each observation in a timeline to visualize the dates in which the quakes have played out.  Due to this geom inherits its attributes from the class of `geom_point`, you can use the aesthetics of `size` and `color` to display some other earthquake's traits such as magnitude and impact of human casualties.
 
 In addition, the package provides a new ggplot2's theme (i.e., `theme_timeline`) so as to make clearer these geoms.
 
 ```{r, fig.height = 4, message = FALSE}
 library(ggplot2)
-library(dplyr)
 
 # Timeline of earthquakes occurred as of 2000 in Chile.
 clean_data %>%

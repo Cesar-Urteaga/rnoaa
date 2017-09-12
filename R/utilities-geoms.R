@@ -25,9 +25,9 @@ approximate_date <- function(year, month, day){
                                  sprintf("%02d", day),
                                  sep = "-")
                            )
-  # Since R does not handle dates B.C., we need to calculate them.
+  # Since R does not handle dates B.C.E., we need to calculate them.
   if(year < 0){
-    # For dates B.C., we need to calculate the lengths A-00 and C-B:
+    # For dates B.C.E., we need to calculate the lengths A-00 and C-B:
     #
     # 00                  A    B      C
     # |+++++++++++++++++++|----|------|

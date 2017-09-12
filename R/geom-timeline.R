@@ -45,15 +45,15 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
                  inherit.aes = inherit.aes, params = list(na.rm = na.rm, ...))
                  }
 
-#' Class of the geom_timeline
-#'
-#' Please refer to the documentation of the \code{\link{geom_timeline}}.
-#'
-#' @format NULL
-#' @usage NULL
-#' @importFrom ggplot2 ggproto GeomPoint aes
-#' @importFrom plyr defaults
-#' @importFrom grid polylineGrob gpar grobTree
+# Class of the geom_timeline
+#
+# Please refer to the documentation of the \code{\link{geom_timeline}}.
+#
+# @format NULL
+# @usage NULL
+# @importFrom ggplot2 ggproto GeomPoint aes
+# @importFrom plyr defaults
+# @importFrom grid polylineGrob gpar grobTree
 GeomTimeline <- ggplot2::ggproto(`_class` = "GeomTimeline",
                           # Because this geom is quite similar to the GeomPoint
                           # class, we can recycle it instead of reinventing the

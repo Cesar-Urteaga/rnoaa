@@ -3,7 +3,8 @@
 # functions work.
 providers <- leaflet::providers
 
-#' Displays an R leaflet map with the quake's epicenters.
+#' Displays an R leaflet map with the quake's epicenters (requires internet
+#' access).
 #'
 #' The epicenters take into account the quake's magnitude to display the radii.
 #' It allows to include popup labels based on the contents of a variable.
@@ -78,7 +79,7 @@ eq_map <- function(data, annot_col){
   map
 }
 
-#' Creates R leaflet maps' popup text labels with quake's traits.
+#' Creates R leaflet maps' popup text labels with the quake's traits.
 #'
 #' \code{eq_create_label} is useful to create the information that will be
 #' displayed in the text popup labels of the \code{\link{eq_map}} function.

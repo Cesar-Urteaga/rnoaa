@@ -77,6 +77,13 @@ Parameter \code{line_height} should be used with care because as long as it
 is lower than 1, it will not overlap with other observations.
 }
 
+\section{Warning}{
+
+When the \code{size} aesthetic is supplied, it is important that there is at
+least one non-missing value for each level in order to work correctly.
+\strong{Otherwise, the timeline labels will not be displayed}.
+}
+
 \examples{
 require(dplyr)
 require(ggplot2)

@@ -2,7 +2,8 @@
 % Please edit documentation in R/leaflet-functions.R
 \name{eq_map}
 \alias{eq_map}
-\title{Displays an R leaflet map with the quake's epicenters.}
+\title{Displays an R leaflet map with the quake's epicenters (requires internet
+access).}
 \usage{
 eq_map(data, annot_col)
 }

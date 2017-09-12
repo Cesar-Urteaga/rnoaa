@@ -2,7 +2,8 @@
 % Please edit documentation in R/data-functions.R
 \name{download_earthquake_data}
 \alias{download_earthquake_data}
-\title{Downloads the latest NOAA's Significant Earthquake dataset.}
+\title{Downloads the latest NOAA's Significant Earthquake dataset (requires
+internet access).}
 \usage{
 download_earthquake_data()
 }

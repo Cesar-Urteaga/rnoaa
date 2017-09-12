@@ -2,26 +2,30 @@
 % Please edit documentation in R/data-functions.R
 \name{eq_clean_data}
 \alias{eq_clean_data}
-\title{Prepares some earthquake's key variables for data analysis.}
+\title{Creates the earthquakes' date of occurrence and prepares some key variables
+for data analysis.}
 \usage{
 eq_clean_data(data)
 }
 \arguments{
-\item{data}{A data frame or tibble object with the above variables.}
+\item{data}{A data frame or tibble object with the dates of occurrence of the
+earthquakes (\code{DATE}) and the variables with the latitude, longitude,
+magnitude, and total deaths changed to the \code{\link{numeric}} type.}
 }
 \value{
 Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 object with the processed data.
 }
 \description{
-\code{eq_clean_data} processes the earthquake's variables in the NOAA's raw
-database with the date (i.e., DATE, YEAR, MONTH, and DAY original variables),
-latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total
-deaths (TOTAL_DEATHS) to make easier the data analysis.
+\code{eq_clean_data} processes the following variables in the NOAA's raw
+database in order to create the date of each reported earthquake: YEAR,
+MONTH, and DAY.  So too, it processes the variables with the latitude
+(LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total deaths
+(TOTAL_DEATHS) to make easier the data analysis.
 }
 \section{Notes}{
 
-One of the benefits of using this function is that it converts dates B.C.
+One of the benefits of using this function is that it converts dates B.C.E.
 into the \code{Date} class; futhermore, when the month or/and day is/are
 missing, the date is approximated at the midpoint of the period.
 }

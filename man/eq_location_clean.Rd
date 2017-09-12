@@ -2,12 +2,13 @@
 % Please edit documentation in R/data-functions.R
 \name{eq_location_clean}
 \alias{eq_location_clean}
-\title{Cleans the location name of the earthquake.}
+\title{Tidies the earthquakes' location name variable up.}
 \usage{
 eq_location_clean(data)
 }
 \arguments{
-\item{data}{A data frame or tibble object with the above variable.}
+\item{data}{A data frame or tibble object with the \code{LOCATION_NAME}
+variable processed.}
 }
 \value{
 Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
@@ -15,8 +16,8 @@ object.
 }
 \description{
 With \code{eq_location_clean} you can get rid of the country in the \code{LOCATION_NAME}
-variable of the \href{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}{NOAA's Significant Earthquake database}
-and convert it into title case.
+variable of the NOAA's quake database because this already exists in another
+variable (\code{COUNTRY}) and convert it into title case.
 }
 \examples{
 raw_data <- download_earthquake_data()

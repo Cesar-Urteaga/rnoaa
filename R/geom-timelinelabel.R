@@ -19,6 +19,10 @@
 #' @section Details:
 #' Parameter \code{line_height} should be used with care because as long as it
 #' is lower than 1, it will not overlap with other observations.
+#' @section Warning:
+#' When the \code{size} aesthetic is supplied, it is important that there is at
+#' least one non-missing value for each level in order to work correctly.
+#' \strong{Otherwise, the timeline labels will not be displayed}.
 #' @examples
 #' require(dplyr)
 #' require(ggplot2)
@@ -88,17 +92,17 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
                  )
                  }
 
-#' Class of the geom_timeline_label
-#'
-#' Please refer to the documentation of the \code{\link{geom_timeline_label}}.
-#'
-#' @format NULL
-#' @usage NULL
-#' @export
-#' @importFrom ggplot2 ggproto GeomSegment aes .pt draw_key_blank
-#' @importFrom plyr defaults
-#' @importFrom grid segmentsGrob gpar textGrob grobTree
-#' @importFrom dplyr %>% group_by arrange desc filter row_number
+# Class of the geom_timeline_label
+#
+# Please refer to the documentation of the \code{\link{geom_timeline_label}}.
+#
+# @format NULL
+# @usage NULL
+# @export
+# @importFrom ggplot2 ggproto GeomSegment aes .pt draw_key_blank
+# @importFrom plyr defaults
+# @importFrom grid segmentsGrob gpar textGrob grobTree
+# @importFrom dplyr %>% group_by arrange desc filter row_number
 GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
                                `_inherit`      = ggplot2::GeomSegment,
                                required_aes    = c("x", "label"),
