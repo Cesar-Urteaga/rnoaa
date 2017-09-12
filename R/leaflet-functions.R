@@ -116,24 +116,7 @@ eq_create_label <- function(data){
        purrr::pmap_chr(list(LOCATION_NAME,
                             EQ_PRIMARY,
                             TOTAL_DEATHS),
-                       function(ln, mag, td)
-                         paste0("if"(!is.na(ln),
-                                     paste0("<b>Location: </b>",
-                                            trimws(ln),
-                                            "</br>")
-                                     ),
-                                "if"(!is.na(mag),
-                                     paste0("<b>Magnitude: </b>",
-                                            trimws(mag),
-                                            "</br>")
-                                     ),
-                                "if"(!is.na(td),
-                                     paste0("<b>Total deaths: </b>",
-                                            scales::comma(as.numeric(td)),
-                                            "</br>")
-                                     )
-                                )
-                       )
+                       HTML_text_labels)
        )
-}
+  }
 

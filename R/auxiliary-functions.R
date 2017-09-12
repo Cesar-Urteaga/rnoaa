@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# These functions are used for data processing.
+# These functions are used for the data functions.
 
 # Given a year, a month, and a day, it creates a date (i.e., an object of the
 # "Date" class).
@@ -109,3 +109,27 @@ ggname <- function(prefix, grob) {
   grob$name <- grid::grobName(grob, prefix)
   grob
   }
+
+#-------------------------------------------------------------------------------
+# This function is used to create the R's leaflet popup text labels.
+
+# It creates the quakes' traits (i.e., location name, magnitude and total number
+# of deaths) in HTML format.  If some attribute is missing, it will be omitted.
+#' @importFrom scales comma
+HTML_text_labels <- function(loc, mag, td)
+  paste0("if"(!is.na(loc),
+              paste0("<b>Location: </b>",
+                     trimws(loc),
+                     "</br>")
+              ),
+         "if"(!is.na(mag),
+              paste0("<b>Magnitude: </b>",
+                     trimws(mag),
+                     "</br>")
+              ),
+         "if"(!is.na(td),
+              paste0("<b>Total deaths: </b>",
+                     scales::comma(as.numeric(td)),
+                     "</br>")
+              )
+         )
