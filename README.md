@@ -5,6 +5,8 @@
 rnoaa <img src="man/figures/logo.png" align="right" width="120"/>
 =================================================================
 
+[![Travis Build Status](https://travis-ci.org/Cesar-Urteaga/rnoaa.svg?branch=master)](https://travis-ci.org/Cesar-Urteaga/rnoaa)
+
 Overview
 --------
 

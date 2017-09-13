@@ -1,6 +1,13 @@
+#' List of available R's leaflet maps providers.
+#'
+#' Please refer to the documentation of \code{\link[leaflet]{providers}}.
+#'
+#' @format NULL
+#' @usage NULL
 #' @export
-# Exports the list of leaflet's providers; it is necessary so as to the other
-# functions work.
+#' @section Details:
+#' This object was exported from the leaflet package so as to use different
+#' types of maps in the \code{\link{eq_map}} function.
 providers <- leaflet::providers
 
 #' Displays an R leaflet map with the quake's epicenters (requires internet

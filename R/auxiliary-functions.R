@@ -136,3 +136,12 @@ HTML_text_labels <- function(loc, mag, td)
                      "</br>")
               )
          )
+
+# To get around of the note "no visible binding for global variable variable-name",
+# see the answer at "https://stackoverflow.com/a/17807914"
+if(getRversion() >= "2.15.1")
+  utils::globalVariables(c("COUNTRY", "DAY", "EQ_PRIMARY", "LATITUDE",
+                           "LOCATION_NAME", "LONGITUDE", "MONTH",
+                           "TOTAL_DEATHS", "YEAR")
+                         )
+

@@ -19,6 +19,8 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 # rnoaa <img src="man/figures/logo.png" align="right" width="120"/>
 
+[![Travis Build Status](https://travis-ci.org/Cesar-Urteaga/rnoaa.svg?branch=master)](https://travis-ci.org/Cesar-Urteaga/rnoaa)
+
 ## Overview
 
 `rnoaa` is an [R](https://www.r-project.org/) package with a set of functions that makes easier to analyze the earthquake data provided from the US National Oceanic and Atmospheric Administration (NOAA).
