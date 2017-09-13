@@ -72,6 +72,8 @@ clean_data %>%
 4  1885     1    14 1885-01-14       CHINA              Gansu Province
 5  1802    12     9 1802-12-09       JAPAN Nw Honshu: Sado Island, Ogi
 6  1576     5    23 1576-05-23 EL SALVADOR                  San Marcos
+#   N.B.: When the month or/and day is/are missing, the date is approximated
+#         at the midpoint of the period.
 ```
 
 Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
