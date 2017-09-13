@@ -6,7 +6,7 @@
 create_date <- function(year, month, day){
   # Constant that represents the days from January 01, 0000 to January 01, 1970.
   days_from_1970 <- 719528
-  #   Adjustment for leap years B.C.E.
+  #   Adjustment for leap years B.C.E. (alybce)
   alybce <- 0
   if(year < -1 &
      (((abs(year + 1)%% 4 == 0) & (abs(year + 1)%% 100 != 0)) |
