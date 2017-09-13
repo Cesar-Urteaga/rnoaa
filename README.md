@@ -7,6 +7,16 @@ rnoaa <img src="man/figures/logo.png" align="right" width="120"/>
 
 [![Travis Build Status](https://travis-ci.org/Cesar-Urteaga/rnoaa.svg?branch=master)](https://travis-ci.org/Cesar-Urteaga/rnoaa) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Cesar-Urteaga/rnoaa?branch=master&svg=true)](https://ci.appveyor.com/project/Cesar-Urteaga/rnoaa)
 
+Table of Contents
+-----------------
+
+-   [Overview](#overview)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Documentation](#documentation)
+-   [Unit Testing](#unit-testing)
+-   [Development Workflow](#development-workflow)
+
 Overview
 --------
 
