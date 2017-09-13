@@ -11,7 +11,7 @@ loaded_data <- get_earthquake_data()
 clean_data <- eq_clean_data(downloaded_data)
 location_clean_data <- eq_location_clean(downloaded_data)
 
-test_that("class is correct", {
+test_that("Class is correct", {
   # skip("Skipped for lack of internet access")
 
   # We expect that downloaded data is a tibble or data frame object and is of
