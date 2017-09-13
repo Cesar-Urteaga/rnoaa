@@ -8,7 +8,7 @@ eq_location_clean(data)
 }
 \arguments{
 \item{data}{A data frame or tibble object with the \code{LOCATION_NAME}
-variable processed.}
+processed variable.}
 }
 \value{
 Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
@@ -16,8 +16,8 @@ object.
 }
 \description{
 With \code{eq_location_clean} you can get rid of the country in the \code{LOCATION_NAME}
-variable of the NOAA's quake database because this already exists in another
-variable (\code{COUNTRY}) and convert it into title case.
+variable of the NOAA's quake database; it also changes the LOCATION_NAME
+variable into title case.
 }
 \examples{
 raw_data <- download_earthquake_data()

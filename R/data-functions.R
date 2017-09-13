@@ -56,15 +56,17 @@ download_earthquake_data <- function(){
 #'
 #' \code{eq_clean_data} processes the following variables in the NOAA's raw
 #' database in order to create the date of each reported earthquake: YEAR,
-#' MONTH, and DAY.  So too, it processes the variables with the latitude
-#' (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total deaths
-#' (TOTAL_DEATHS) to make easier the data analysis.
+#' MONTH, and DAY.  So too, it transforms to \code{\link{numeric}} the variables
+#' with the latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY),
+#' and total deaths (TOTAL_DEATHS) to make easier the data analysis.
 #'
-#' @param data A data frame or tibble object with the dates of occurrence of the
-#' earthquakes (\code{DATE}) and the variables with the latitude, longitude,
-#' magnitude, and total deaths changed to the \code{\link{numeric}} type.
+#' @param data A data frame or tibble object with the information about the
+#' earthquakes' occurrence: YEAR, MONTH, and DAY.  In addition, the dataset must
+#' have the variables with the quakes' latitude, longitude, magnitude, and total
+#' deaths.
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
-#' object with the processed data.
+#' object with the quake's date (the \code{DATE} variable) and changes to
+#' numeric type the variables described above.
 #' @export
 #' @importFrom tidyr unite
 #' @importFrom dplyr %>% rowwise mutate ungroup
@@ -93,11 +95,11 @@ eq_clean_data <- function(data){
 #' Tidies the earthquakes' location name variable up.
 #'
 #' With \code{eq_location_clean} you can get rid of the country in the \code{LOCATION_NAME}
-#' variable of the NOAA's quake database because this already exists in another
-#' variable (\code{COUNTRY}) and convert it into title case.
+#' variable of the NOAA's quake database; it also changes the LOCATION_NAME
+#' variable into title case.
 #'
 #' @param data A data frame or tibble object with the \code{LOCATION_NAME}
-#' variable processed.
+#' processed variable.
 #' @return Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #' object.
 #' @export

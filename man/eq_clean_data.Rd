@@ -8,20 +8,22 @@ for data analysis.}
 eq_clean_data(data)
 }
 \arguments{
-\item{data}{A data frame or tibble object with the dates of occurrence of the
-earthquakes (\code{DATE}) and the variables with the latitude, longitude,
-magnitude, and total deaths changed to the \code{\link{numeric}} type.}
+\item{data}{A data frame or tibble object with the information about the
+earthquakes' occurrence: YEAR, MONTH, and DAY.  In addition, the dataset must
+have the variables with the quakes' latitude, longitude, magnitude, and total
+deaths.}
 }
 \value{
 Returns a \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
-object with the processed data.
+object with the quake's date (the \code{DATE} variable) and changes to
+numeric type the variables described above.
 }
 \description{
 \code{eq_clean_data} processes the following variables in the NOAA's raw
 database in order to create the date of each reported earthquake: YEAR,
-MONTH, and DAY.  So too, it processes the variables with the latitude
-(LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY), and total deaths
-(TOTAL_DEATHS) to make easier the data analysis.
+MONTH, and DAY.  So too, it transforms to \code{\link{numeric}} the variables
+with the latitude (LATITUDE), longitude (LONGITUDE), magnitude (EQ_PRIMARY),
+and total deaths (TOTAL_DEATHS) to make easier the data analysis.
 }
 \section{Notes}{
 

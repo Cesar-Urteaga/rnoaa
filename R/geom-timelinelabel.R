@@ -7,12 +7,12 @@
 #'
 #' @inheritParams geom_timeline
 #' @param n_max Number of labels to be depicted by level.  If the aesthetic
-#' \code{size} is specified, it will be used to show the highest values of this.
-#' When this aesthetic is omitted, it will display the last observations.
-#' Defaults to 3.
-#' @param line_height Length (expressed as proportion of the available vertical
-#' space) of the vertical lines attached to the text labels.  Defaults to 2/3.
-#' @param fontsize Size of the font. Default to 3.88.
+#' \code{size} is specified, it will be used to show the observations with the
+#' highest values.  When this aesthetic is omitted, it will display the last
+#' observations.  Defaults to 3.
+#' @param line_height Length (expressed as proportion of the available space) of
+#' the vertical lines attached to the text labels.  Defaults to 2/3.
+#' @param fontsize Size of the font. Defaults to 3.88.
 #' @param angle Rotation of the label in degrees; it is counter clockwise.
 #' Defaults to 45.
 #' @export
@@ -90,8 +90,9 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
                                                       ...
                                                           )
                  )
-                 }
+}
 
+# Purposely, it was not included in the documentation.
 # Class of the geom_timeline_label
 #
 # Please refer to the documentation of the \code{\link{geom_timeline_label}}.
@@ -99,10 +100,10 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
 # @format NULL
 # @usage NULL
 # @export
-# @importFrom ggplot2 ggproto GeomSegment aes .pt draw_key_blank
-# @importFrom plyr defaults
-# @importFrom grid segmentsGrob gpar textGrob grobTree
-# @importFrom dplyr %>% group_by arrange desc filter row_number
+#' @importFrom ggplot2 ggproto GeomSegment aes .pt draw_key_blank
+#' @importFrom plyr defaults
+#' @importFrom grid segmentsGrob gpar textGrob grobTree
+#' @importFrom dplyr %>% group_by arrange desc filter row_number
 GeomTimelineLabel <- ggplot2::ggproto(`_class` = "GeomTimelineLabel",
                                `_inherit`      = ggplot2::GeomSegment,
                                required_aes    = c("x", "label"),

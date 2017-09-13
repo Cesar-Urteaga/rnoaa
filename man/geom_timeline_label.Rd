@@ -45,14 +45,14 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link{borders}}.}
 
 \item{n_max}{Number of labels to be depicted by level.  If the aesthetic
-\code{size} is specified, it will be used to show the highest values of this.
-When this aesthetic is omitted, it will display the last observations.
-Defaults to 3.}
+\code{size} is specified, it will be used to show the observations with the
+highest values.  When this aesthetic is omitted, it will display the last
+observations.  Defaults to 3.}
 
-\item{line_height}{Length (expressed as proportion of the available vertical
-space) of the vertical lines attached to the text labels.  Defaults to 2/3.}
+\item{line_height}{Length (expressed as proportion of the available space) of
+the vertical lines attached to the text labels.  Defaults to 2/3.}
 
-\item{fontsize}{Size of the font. Default to 3.88.}
+\item{fontsize}{Size of the font. Defaults to 3.88.}
 
 \item{angle}{Rotation of the label in degrees; it is counter clockwise.
 Defaults to 45.}

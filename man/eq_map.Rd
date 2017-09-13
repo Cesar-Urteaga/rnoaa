@@ -11,12 +11,14 @@ eq_map(data, annot_col)
 \item{data}{A \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 object with the earthquake epicenters.}
 
-\item{annot_col}{A character vector in HTML format with text content to be
-displayed in popup text labels (i.e., text shown in click-interactive points).}
+\item{annot_col}{A character vector in HTML format with the text content to
+be displayed in the popup text labels of the R leaflet map.}
 }
 \description{
-The epicenters take into account the quake's magnitude to display the radii.
-It allows to include popup labels based on the contents of a variable.
+\code{eq_map} shows an R leaflet map with the quakes' epicenters; it takes
+into account the earthquake's magnitude to display the radii.  This function
+allows to include popup labels based on the contents of a variable (e.g., the
+quake's occurrence).
 }
 \section{Warning}{
 

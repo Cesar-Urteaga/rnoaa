@@ -3,7 +3,7 @@
 \docType{data}
 \name{providers}
 \alias{providers}
-\title{List of available R's leaflet maps providers.}
+\title{List of available R's leaflet map providers.}
 \description{
 Please refer to the documentation of \code{\link[leaflet]{providers}}.
 }

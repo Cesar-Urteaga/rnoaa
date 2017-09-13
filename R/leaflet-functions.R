@@ -1,4 +1,4 @@
-#' List of available R's leaflet maps providers.
+#' List of available R's leaflet map providers.
 #'
 #' Please refer to the documentation of \code{\link[leaflet]{providers}}.
 #'
@@ -13,13 +13,15 @@ providers <- leaflet::providers
 #' Displays an R leaflet map with the quake's epicenters (requires internet
 #' access).
 #'
-#' The epicenters take into account the quake's magnitude to display the radii.
-#' It allows to include popup labels based on the contents of a variable.
+#' \code{eq_map} shows an R leaflet map with the quakes' epicenters; it takes
+#' into account the earthquake's magnitude to display the radii.  This function
+#' allows to include popup labels based on the contents of a variable (e.g., the
+#' quake's occurrence).
 #'
 #' @param data A \href{https://blog.rstudio.org/2016/03/24/tibble-1-0-0/}{tibble}
 #'    object with the earthquake epicenters.
-#' @param annot_col A character vector in HTML format with text content to be
-#' displayed in popup text labels (i.e., text shown in click-interactive points).
+#' @param annot_col A character vector in HTML format with the text content to
+#' be displayed in the popup text labels of the R leaflet map.
 #'
 #' @export
 #' @importFrom grDevices chull
