@@ -6,23 +6,26 @@
 create_date <- function(year, month, day){
   # Constant that represents the days from January 01, 0000 to January 01, 1970.
   days_from_1970 <- 719528
+  #   Adjustment for leap years B.C.E.
+  alybce <- 0
+  if(year < -1 &
+     (((abs(year + 1)%% 4 == 0) & (abs(year + 1)%% 100 != 0)) |
+      (abs(year + 1) %% 400 == 0)
+      )
+     )
+    alybce <- 1
   # We set up the midpoint of the period when the month or/and day is/are
   # missing.
   if(is.na(month)){
     # July 2 is the midpoint of a common year, please see:
     #   https://en.wikipedia.org/wiki/July_2
     month <- 7
-    #   Adjustment for negative years.
-    if(year < 0 &
-       (((abs(year + 1)%% 4 == 0) & (abs(year + 1)%% 100 != 0)) |
-        (abs(year + 1) %% 400 == 0)
-        )
-       ){
-      day <- 1
-    } else
-    day   <- 2
+    day   <- 2 - alybce
   }
-  if(is.na(day)) day <- ifelse(month == 2, 14, 15)
+  if(is.na(day)){
+      day <- ifelse(month == 2, 14, 15) - alybce
+  }
+
   # Stores the given date considering that the given year is positive.
   temporal_date <- as.Date(paste(sprintf("%04d", abs(year)),
                                  sprintf("%02d", month),
