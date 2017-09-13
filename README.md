@@ -10,7 +10,7 @@ rnoaa <img src="man/figures/logo.png" align="right" width="120"/>
 Overview
 --------
 
-`rnoaa` is an [R](https://www.r-project.org/) package with a set of functions that makes easier to analyze the earthquake data provided from the US National Oceanic and Atmospheric Administration (NOAA).
+`rnoaa` is an [R](https://www.r-project.org/) package with a set of functions that makes easier to analyze the earthquake data provided by the US National Oceanic and Atmospheric Administration (NOAA).
 
 Installation
 ------------
@@ -30,20 +30,51 @@ This package allows you to get and clean the latest earthquake data from [the NO
 
 ``` r
 library(rnoaa)
-# In case you do not have internet access, you can use the get_earthquake_data
-# function, which is a snapshot of the quake's data on September 10, 2017:
-# raw_data <- get_earthquake_data()
+library(dplyr)
+
+# GETTING THE DATA
+#   In case you do not have internet access, you can use the get_earthquake_data
+#   function, which is a snapshot of the quake's data on September 10, 2017:
+#   raw_data <- get_earthquake_data()
 raw_data <- download_earthquake_data()
-# Basically, converts some important variables into the right format.
-clean_data <- eq_clean_data(raw_data)
-# Tidies the variable with the quake's location.
-clean_data <- eq_location_clean(clean_data)
+
+# TIDYING THE DATA UP
+#   Before the data has been processed:
+raw_data %>%
+  select(YEAR, MONTH, DAY, COUNTRY, LOCATION_NAME) %>%
+  head()
+# A tibble: 6 x 5
+   YEAR MONTH   DAY      COUNTRY                     LOCATION_NAME
+  <int> <int> <int>        <chr>                             <chr>
+1 -2150    NA    NA       JORDAN     JORDAN:  BAB-A-DARAA,AL-KARAK
+2 -2000    NA    NA TURKMENISTAN                  TURKMENISTAN:  W
+3 -2000    NA    NA        SYRIA                    SYRIA:  UGARIT
+4 -1610    NA    NA       GREECE GREECE:  THERA ISLAND (SANTORINI)
+5 -1566    NA    NA       ISRAEL          ISRAEL:  ARIHA (JERICHO)
+6 -1450    NA    NA        ITALY              ITALY:  LACUS CIMINI
+#   We use the two rnoaa's functions to clean the data.
+clean_data <- raw_data %>%
+  eq_clean_data() %>%
+  eq_location_clean()
+#   After the data has been processed (note that the DATE variable has been
+#   created and the country has been removed for the LOCATION_NAME variable):
+clean_data %>%
+  select(YEAR, MONTH, DAY, DATE, COUNTRY, LOCATION_NAME) %>%
+  head()
+# A tibble: 6 x 6
+   YEAR MONTH   DAY        DATE      COUNTRY            LOCATION_NAME
+  <int> <int> <int>      <date>        <chr>                    <chr>
+1 -2150    NA    NA -2150-07-02       JORDAN    Bab-A-Daraa, Al-Karak
+2 -2000    NA    NA -2000-07-02 TURKMENISTAN                        W
+3 -2000    NA    NA -2000-07-02        SYRIA                   Ugarit
+4 -1610    NA    NA -1610-07-02       GREECE Thera Island (Santorini)
+5 -1566    NA    NA -1566-07-02       ISRAEL          Ariha (Jericho)
+6 -1450    NA    NA -1450-07-02        ITALY             Lacus Cimini
 ```
 
 Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
 
 ``` r
-library(dplyr)
 library(ggplot2)
 clean_data %>%
   filter(COUNTRY %in% c("CANADA", "USA", "MEXICO",
@@ -102,3 +133,8 @@ Unit Testing
 ------------
 
 In order to increase the quality of the package, a [set of tests](./tests/testthat) were carried out for each function using the `testthat` R package.
+
+Development Workflow
+--------------------
+
+The workflow that was used to develop this package is described [here](https://github.com/Cesar-Urteaga/rfars#workflow).

@@ -24,7 +24,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 ## Overview
 
-`rnoaa` is an [R](https://www.r-project.org/) package with a set of functions that makes easier to analyze the earthquake data provided from the US National Oceanic and Atmospheric Administration (NOAA).
+`rnoaa` is an [R](https://www.r-project.org/) package with a set of functions that makes easier to analyze the earthquake data provided by the US National Oceanic and Atmospheric Administration (NOAA).
 
 ## Installation
 
@@ -42,20 +42,33 @@ This package allows you to get and clean the latest earthquake data from [the NO
 
 ```{r}
 library(rnoaa)
-# In case you do not have internet access, you can use the get_earthquake_data
-# function, which is a snapshot of the quake's data on September 10, 2017:
-# raw_data <- get_earthquake_data()
+library(dplyr)
+
+# GETTING THE DATA
+#   In case you do not have internet access, you can use the get_earthquake_data
+#   function, which is a snapshot of the quake's data on September 10, 2017:
+#   raw_data <- get_earthquake_data()
 raw_data <- download_earthquake_data()
-# Basically, converts some important variables into the right format.
-clean_data <- eq_clean_data(raw_data)
-# Tidies the variable with the quake's location.
-clean_data <- eq_location_clean(clean_data)
+
+# TIDYING THE DATA UP
+#   Before the data has been processed:
+raw_data %>%
+  select(YEAR, MONTH, DAY, COUNTRY, LOCATION_NAME) %>%
+  head()
+#   We use the two rnoaa's functions to clean the data.
+clean_data <- raw_data %>%
+  eq_clean_data() %>%
+  eq_location_clean()
+#   After the data has been processed (note that the DATE variable has been
+#   created and the country has been removed for the LOCATION_NAME variable):
+clean_data %>%
+  select(YEAR, MONTH, DAY, DATE, COUNTRY, LOCATION_NAME) %>%
+  head()
 ```
 
 Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
 
 ```{r TimelineGeom}
-library(dplyr)
 library(ggplot2)
 clean_data %>%
   filter(COUNTRY %in% c("CANADA", "USA", "MEXICO",
@@ -110,3 +123,7 @@ Please check the [package's vignette](./vignettes/using-rnoaa.Rmd) to see how th
 ## Unit Testing
 
 In order to increase the quality of the package, a [set of tests](./tests/testthat) were carried out for each function using the `testthat` R package.
+
+## Development Workflow
+
+The workflow that was used to develop this package is described [here](https://github.com/Cesar-Urteaga/rfars#workflow).
