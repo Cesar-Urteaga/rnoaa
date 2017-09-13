@@ -23,7 +23,7 @@ This vignette describes what is the `rnoaa` package and how it should be used.
 
 ## Description
 
-The `rnoaa` package bundles a set of functions to analyze the data from the [NOAA's Significant Earthquake dataset](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1).
+The `rnoaa` package bundles a set of functions to get, clean, visualize, and analyze the data from the [NOAA's Significant Earthquake dataset](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1).
 
 ## Usage
 
@@ -31,7 +31,7 @@ The `rnoaa` package bundles a set of functions to analyze the data from the [NOA
 
 #### Obtaining the data
 
-The function `get_earthquake_data` allows you to load a snapshot of the earthquakes' data downloaded on September 10, 2017; on the proviso that you want to get the latest data from the NOAA's Website, you can use `download_earthquake_data` function (requires internet access).
+The function `get_earthquake_data` allows you to load a snapshot of the earthquakes' data downloaded on September 10, 2017; on the proviso that you may want to download the latest data from the NOAA's Website, you can use the `download_earthquake_data` function (requires internet access).
 
 ```{r}
 # Extracts the data from a compressed file.
@@ -43,7 +43,7 @@ raw_data <- get_earthquake_data()
 
 Once the data was downloaded, you may wish to prepare some key variables for data analysis; in particular, you could be interested in the quakes' date, location of the epicenter, magnitude, and the human cost of lives.  Moreover, the name of the place in which the quake has taken place could be of your concern.  So, `eq_clean_data` and `eq_create_label` functions allows you to mop these variables up for analysis.
 
-The `eq_clean_data` function creates the quakes' dates based on the three time variables within the NOAA's dataset: `YEAR`, `MONTH`, and `DAY`.  Specifically, it creates the dates for earthquakes that had occurred Before the Common Era (B.C.E.); this enhances the R's functionality because it does not handle these dates.  In addition, when the month or/and day is/are missing, the date is approximated at the midpoint of the period.
+The `eq_clean_data` function creates the quakes' dates based on the three time variables within the NOAA's dataset: `YEAR`, `MONTH`, and `DAY`.  Specifically, it can create the dates for earthquakes that had occurred Before the Common Era (B.C.E.); this enhances the R's functionality because it does not handle these dates.  In addition, when the month or/and day is/are missing, the date is approximated at the midpoint of the period.
 
 On the other hand, the `eq_location_clean` function removes the country from the variable that has the quake's location (i.e., `LOCATION_NAME` variable) due to it does not make sense to keep it since a variable with the country (i.e., `COUNTRY` variable) already exists.  
 
@@ -51,9 +51,10 @@ On the other hand, the `eq_location_clean` function removes the country from the
 library(dplyr)
 
 # Before the data has been processed:
+set.seed(11)
 raw_data %>% 
   select(YEAR, MONTH, DAY, COUNTRY, LOCATION_NAME) %>% 
-  head()
+  sample_n(6)
 
 # Tidies the data up for analysis.
 clean_data <- eq_clean_data(raw_data)
@@ -61,9 +62,12 @@ clean_data <- eq_location_clean(clean_data)
 
 # After the data has been processed (note that the DATE variable has been 
 # created and the country has been removed for the LOCATION_NAME variable):
+set.seed(11)
 clean_data %>% 
   select(YEAR, MONTH, DAY, DATE, COUNTRY, LOCATION_NAME) %>% 
-  head()
+  sample_n(6)
+# N.B.: When the month or/and day is/are missing, the date is approximated at 
+#       the midpoint of the period.
 ```
 
 ### Analyzing the data
