@@ -28,7 +28,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-License: GPL-3
+License: GPL-3 | file LICENSE
 URL: https://github.com/Cesar-Urteaga/rnoaa
 BugReports: https://github.com/Cesar-Urteaga/rnoaa/issues
 LazyData: true
