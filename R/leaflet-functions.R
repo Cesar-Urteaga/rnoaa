@@ -15,6 +15,7 @@ providers <- leaflet::providers
 #' displayed in popup text labels (i.e., text shown in click-interactive points).
 #'
 #' @export
+#' @importFrom grDevices chull
 #' @importFrom dplyr %>% mutate
 #' @importFrom leaflet leaflet addProviderTiles addCircleMarkers addPolygons
 #' @importFrom leaflet addLayersControl layersControlOptions hideGroup
@@ -39,7 +40,7 @@ providers <- leaflet::providers
 #'   eq_map(annot_col = "DATE")
 eq_map <- function(data, annot_col){
   # Calculates the outline of the observed quake's epicenters.
-  outline <- data[chull(data$LONGITUDE, data$LATITUDE),]
+  outline <- data[grDevices::chull(data$LONGITUDE, data$LATITUDE),]
   # Renders the epicenters in an R's leaflet map, please refer to:
   # https://rstudio.github.io/leaflet/
   map <- data %>%
