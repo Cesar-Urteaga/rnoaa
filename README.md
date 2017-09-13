@@ -10,7 +10,7 @@ rnoaa <img src="man/figures/logo.png" align="right" width="120"/>
 Overview
 --------
 
-`rnoaa` is an [R](https://www.r-project.org/) package with a set of functions that makes easier to analyze the earthquake data provided by the US National Oceanic and Atmospheric Administration (NOAA).
+`rnoaa` is an [R](https://www.r-project.org/) package with a set of functions that makes easier to analyze the earthquake data provided by the [U.S. National Oceanic and Atmospheric Administration (NOAA)](http://www.noaa.gov/).
 
 Installation
 ------------
@@ -35,8 +35,8 @@ library(dplyr)
 # GETTING THE DATA
 #   In case you do not have internet access, you can use the get_earthquake_data
 #   function, which is a snapshot of the quake's data on September 10, 2017:
-   raw_data <- get_earthquake_data()
-#raw_data <- download_earthquake_data()
+#   raw_data <- get_earthquake_data()
+raw_data <- download_earthquake_data()
 
 # TIDYING THE DATA UP
 #   Before the data has been processed:
