@@ -44,15 +44,15 @@ set.seed(48)
 raw_data %>%
   select(YEAR, MONTH, DAY, COUNTRY, LOCATION_NAME) %>%
   sample_n(6)
-# A tibble: 6 x 5
-   YEAR MONTH   DAY     COUNTRY                        LOCATION_NAME
-  <int> <int> <int>       <chr>                                <chr>
-1  1946     8     2       CHILE                     CHILE:  NORTHERN
-2   778    NA    NA       ITALY                      ITALY:  TREVISO
-3  -426     6    NA      GREECE                      GREECE:  EUBOEA
-4  1885     1    14       CHINA               CHINA:  GANSU PROVINCE
-5  1802    12     9       JAPAN JAPAN:  NW HONSHU:  SADO ISLAND, OGI
-6  1576     5    23 EL SALVADOR             EL SALVADOR:  SAN MARCOS
+> # A tibble: 6 x 5
+>    YEAR MONTH   DAY     COUNTRY                        LOCATION_NAME
+>   <int> <int> <int>       <chr>                                <chr>
+> 1  1946     8     2       CHILE                     CHILE:  NORTHERN
+> 2   778    NA    NA       ITALY                      ITALY:  TREVISO
+> 3  -426     6    NA      GREECE                      GREECE:  EUBOEA
+> 4  1885     1    14       CHINA               CHINA:  GANSU PROVINCE
+> 5  1802    12     9       JAPAN JAPAN:  NW HONSHU:  SADO ISLAND, OGI
+> 6  1576     5    23 EL SALVADOR             EL SALVADOR:  SAN MARCOS
 #   We use the two rnoaa's functions to clean the data.
 clean_data <- raw_data %>%
   eq_clean_data() %>%
@@ -63,15 +63,15 @@ set.seed(48)
 clean_data %>%
   select(YEAR, MONTH, DAY, DATE, COUNTRY, LOCATION_NAME) %>%
   sample_n(6)
-# A tibble: 6 x 6
-   YEAR MONTH   DAY       DATE     COUNTRY               LOCATION_NAME
-  <int> <int> <int>     <date>       <chr>                       <chr>
-1  1946     8     2 1946-08-02       CHILE                    Northern
-2   778    NA    NA  778-07-02       ITALY                     Treviso
-3  -426     6    NA -426-06-15      GREECE                      Euboea
-4  1885     1    14 1885-01-14       CHINA              Gansu Province
-5  1802    12     9 1802-12-09       JAPAN Nw Honshu: Sado Island, Ogi
-6  1576     5    23 1576-05-23 EL SALVADOR                  San Marcos
+> # A tibble: 6 x 6
+>    YEAR MONTH   DAY       DATE     COUNTRY               LOCATION_NAME
+>   <int> <int> <int>     <date>       <chr>                       <chr>
+> 1  1946     8     2 1946-08-02       CHILE                    Northern
+> 2   778    NA    NA  778-07-02       ITALY                     Treviso
+> 3  -426     6    NA -426-06-15      GREECE                      Euboea
+> 4  1885     1    14 1885-01-14       CHINA              Gansu Province
+> 5  1802    12     9 1802-12-09       JAPAN Nw Honshu: Sado Island, Ogi
+> 6  1576     5    23 1576-05-23 EL SALVADOR                  San Marcos
 #   N.B.: When the month or/and day is/are missing, the date is approximated
 #         at the midpoint of the period.
 ```
