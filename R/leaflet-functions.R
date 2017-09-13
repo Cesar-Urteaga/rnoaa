@@ -24,6 +24,7 @@ providers <- leaflet::providers
 #' object: LONGITUDE, LATITUDE, and EQ_PRIMARY (magnitude).
 #' @examples
 #' require(dplyr)
+#' require(lubridate)
 #'
 #' # Before showing the interactive map, we need to tidy the data up.
 #' raw_data <- get_earthquake_data()
@@ -97,6 +98,7 @@ eq_map <- function(data, annot_col){
 #' TOTAL_DEATHS (total deaths).
 #' @examples
 #' require(dplyr)
+#' require(lubridate)
 #'
 #' # Before showing the interactive map, we need to tidy the data up.
 #' raw_data <- get_earthquake_data()
