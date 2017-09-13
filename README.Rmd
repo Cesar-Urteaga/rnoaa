@@ -38,7 +38,7 @@ devtools::install_github("Cesar-Urteaga/rnoaa", build_vignettes = TRUE)
 
 ## Usage
 
-This package allows you to get and clean the latest earthquake data from [the NOAA's Webpage](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1) so as to prepare it for analysis.
+This package allows you to get and clean the latest earthquake data from [the NOAA's Webpage](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1) so as to prepare it for analysis:
 
 ```{r}
 library(rnoaa)
@@ -47,23 +47,25 @@ library(dplyr)
 # GETTING THE DATA
 #   In case you do not have internet access, you can use the get_earthquake_data
 #   function, which is a snapshot of the quake's data on September 10, 2017:
-#   raw_data <- get_earthquake_data()
-raw_data <- download_earthquake_data()
+   raw_data <- get_earthquake_data()
+#raw_data <- download_earthquake_data()
 
 # TIDYING THE DATA UP
 #   Before the data has been processed:
+set.seed(48)
 raw_data %>%
   select(YEAR, MONTH, DAY, COUNTRY, LOCATION_NAME) %>%
-  head()
+  sample_n(6)
 #   We use the two rnoaa's functions to clean the data.
 clean_data <- raw_data %>%
   eq_clean_data() %>%
   eq_location_clean()
 #   After the data has been processed (note that the DATE variable has been
 #   created and the country has been removed for the LOCATION_NAME variable):
+set.seed(48)
 clean_data %>%
   select(YEAR, MONTH, DAY, DATE, COUNTRY, LOCATION_NAME) %>%
-  head()
+  sample_n(6)
 ```
 
 Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:

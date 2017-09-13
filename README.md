@@ -26,7 +26,7 @@ devtools::install_github("Cesar-Urteaga/rnoaa", build_vignettes = TRUE)
 Usage
 -----
 
-This package allows you to get and clean the latest earthquake data from [the NOAA's Webpage](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1) so as to prepare it for analysis.
+This package allows you to get and clean the latest earthquake data from [the NOAA's Webpage](https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1) so as to prepare it for analysis:
 
 ``` r
 library(rnoaa)
@@ -35,41 +35,43 @@ library(dplyr)
 # GETTING THE DATA
 #   In case you do not have internet access, you can use the get_earthquake_data
 #   function, which is a snapshot of the quake's data on September 10, 2017:
-#   raw_data <- get_earthquake_data()
-raw_data <- download_earthquake_data()
+   raw_data <- get_earthquake_data()
+#raw_data <- download_earthquake_data()
 
 # TIDYING THE DATA UP
 #   Before the data has been processed:
+set.seed(48)
 raw_data %>%
   select(YEAR, MONTH, DAY, COUNTRY, LOCATION_NAME) %>%
-  head()
+  sample_n(6)
 # A tibble: 6 x 5
-   YEAR MONTH   DAY      COUNTRY                     LOCATION_NAME
-  <int> <int> <int>        <chr>                             <chr>
-1 -2150    NA    NA       JORDAN     JORDAN:  BAB-A-DARAA,AL-KARAK
-2 -2000    NA    NA TURKMENISTAN                  TURKMENISTAN:  W
-3 -2000    NA    NA        SYRIA                    SYRIA:  UGARIT
-4 -1610    NA    NA       GREECE GREECE:  THERA ISLAND (SANTORINI)
-5 -1566    NA    NA       ISRAEL          ISRAEL:  ARIHA (JERICHO)
-6 -1450    NA    NA        ITALY              ITALY:  LACUS CIMINI
+   YEAR MONTH   DAY     COUNTRY                        LOCATION_NAME
+  <int> <int> <int>       <chr>                                <chr>
+1  1946     8     2       CHILE                     CHILE:  NORTHERN
+2   778    NA    NA       ITALY                      ITALY:  TREVISO
+3  -426     6    NA      GREECE                      GREECE:  EUBOEA
+4  1885     1    14       CHINA               CHINA:  GANSU PROVINCE
+5  1802    12     9       JAPAN JAPAN:  NW HONSHU:  SADO ISLAND, OGI
+6  1576     5    23 EL SALVADOR             EL SALVADOR:  SAN MARCOS
 #   We use the two rnoaa's functions to clean the data.
 clean_data <- raw_data %>%
   eq_clean_data() %>%
   eq_location_clean()
 #   After the data has been processed (note that the DATE variable has been
 #   created and the country has been removed for the LOCATION_NAME variable):
+set.seed(48)
 clean_data %>%
   select(YEAR, MONTH, DAY, DATE, COUNTRY, LOCATION_NAME) %>%
-  head()
+  sample_n(6)
 # A tibble: 6 x 6
-   YEAR MONTH   DAY        DATE      COUNTRY            LOCATION_NAME
-  <int> <int> <int>      <date>        <chr>                    <chr>
-1 -2150    NA    NA -2150-07-02       JORDAN    Bab-A-Daraa, Al-Karak
-2 -2000    NA    NA -2000-07-02 TURKMENISTAN                        W
-3 -2000    NA    NA -2000-07-02        SYRIA                   Ugarit
-4 -1610    NA    NA -1610-07-02       GREECE Thera Island (Santorini)
-5 -1566    NA    NA -1566-07-02       ISRAEL          Ariha (Jericho)
-6 -1450    NA    NA -1450-07-02        ITALY             Lacus Cimini
+   YEAR MONTH   DAY       DATE     COUNTRY               LOCATION_NAME
+  <int> <int> <int>     <date>       <chr>                       <chr>
+1  1946     8     2 1946-08-02       CHILE                    Northern
+2   778    NA    NA  778-07-02       ITALY                     Treviso
+3  -426     6    NA -426-06-15      GREECE                      Euboea
+4  1885     1    14 1885-01-14       CHINA              Gansu Province
+5  1802    12     9 1802-12-09       JAPAN Nw Honshu: Sado Island, Ogi
+6  1576     5    23 1576-05-23 EL SALVADOR                  San Marcos
 ```
 
 Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
