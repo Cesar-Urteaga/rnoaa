@@ -17,7 +17,6 @@ Imports:
     ggplot2,
     grid,
     leaflet,
-    lubridate,
     plyr,
     purrr,
     readr,
@@ -25,6 +24,7 @@ Imports:
     stringr,
     tidyr
 Suggests:
+    lubridate,
     knitr,
     rmarkdown,
     testthat

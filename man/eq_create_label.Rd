@@ -24,6 +24,7 @@ TOTAL_DEATHS (total deaths).
 
 \examples{
 require(dplyr)
+require(lubridate)
 
 # Before showing the interactive map, we need to tidy the data up.
 raw_data <- get_earthquake_data()
