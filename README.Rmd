@@ -21,6 +21,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 [![Travis Build Status](https://travis-ci.org/Cesar-Urteaga/rnoaa.svg?branch=master)](https://travis-ci.org/Cesar-Urteaga/rnoaa)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Cesar-Urteaga/rnoaa?branch=master&svg=true)](https://ci.appveyor.com/project/Cesar-Urteaga/rnoaa)
+[![codecov](https://codecov.io/gh/Cesar-Urteaga/rnoaa/branch/master/graph/badge.svg)](https://codecov.io/gh/Cesar-Urteaga/rnoaa)
 
 ## Table of Contents
 
