@@ -13,8 +13,7 @@ knitr::opts_chunk$set(collapse = TRUE,
                       fig.align = "center",
                       fig.height = 6,
                       fig.width = 9,
-                      message = FALSE,
-                      warning = FALSE)
+                      message = FALSE, warning = FALSE)
 ```
 
 # rnoaa <img src="man/figures/logo.png" align="right" width="120"/>
