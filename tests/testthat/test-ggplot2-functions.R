@@ -5,6 +5,7 @@ context("ggplot2's functions")
 
 library(ggplot2)
 library(dplyr)
+library(grid)
 
 test_that("Class is correct once we have used the three ggplot2's functions", {
   raw_data <- get_earthquake_data()
@@ -29,5 +30,22 @@ test_that("Class is correct once we have used the three ggplot2's functions", {
     theme_timeline()
 
   expect_s3_class(ggplot2_plot, c("gg", "ggplot"))
+  }
+  )
+
+test_that("Class of auxiliary functions are correct", {
+  expect_s3_class(ggname("Circle", circleGrob()),
+                  "grob"
+                  )
+  }
+  )
+
+test_that("Y-coordinates for each level are correctly set up", {
+  expect_identical(next_y_cut(0.5, 1), 0.5 + 0.5 * 2 / 3)
+  expect_identical(next_y_cut(0.5, 2), NA)
+  expect_equal(next_y_cut(3 / (1 + 5 * 2), 2, 0), 0.2727273,
+               tolerance = 0.000001)
+  expect_equal(next_y_cut(1 - 3 / (1 + 5 * 2), 2, 0), 0.7272727,
+               tolerance = 0.000001)
   }
   )
