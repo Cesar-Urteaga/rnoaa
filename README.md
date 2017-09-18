@@ -146,7 +146,7 @@ Please check the [package's vignette](./vignettes/using-rnoaa.Rmd) to see how th
 Unit Testing
 ------------
 
-In order to increase the quality of the package, a [test suite](./tests/testthat) was carried out for each function using the `testthat` R package. I have added a [code coverage](https://en.wikipedia.org/wiki/Code_coverage) measure using [codecov](https://codecov.io).
+In order to increase the quality of the package, a [test suite](./tests/testthat) was carried out for each function using the `testthat` R package. I have added a [code coverage](https://en.wikipedia.org/wiki/Code_coverage) measure to the package's repository using [codecov](https://codecov.io).
 
 Development Workflow
 --------------------
