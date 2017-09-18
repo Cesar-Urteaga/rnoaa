@@ -86,7 +86,7 @@ clean_data %>%
 #         at the midpoint of the period.
 ```
 
-Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greater magnitude:
+Once the data was tidied, `rnoaa` includes two ggplot2's geoms to visualize the timeline in which the quakes have ocurred and label the ones with the greatest magnitude:
 
 ``` r
 library(ggplot2)
